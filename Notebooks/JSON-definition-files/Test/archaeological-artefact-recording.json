@@ -1,0 +1,369 @@
+{
+  "metadata": {
+    "name": "Archaeological Historical Artefact Recording",
+    "notebook_version": "1.0",
+    "schema_version": "1.0",
+    "project_lead": "",
+    "lead_institution": "",
+    "pre_description": "Simple notebook for recording archaeological historical artefacts with linked additional photos",
+    "project_status": "New",
+    "ispublic": false,
+    "isrequest": false,
+    "showQRCodeButton": true,
+    "accesses": ["admin", "moderator", "team"],
+    "filenames": []
+  },
+  "ui-specification": {
+    "fields": {
+      "Artefact_ID": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Artefact ID",
+          "name": "Artefact_ID",
+          "helperText": "Auto-generated artefact identifier",
+          "fullWidth": true,
+          "num_digits": 4,
+          "form_id": "Artefact"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "Bag_ID": {
+        "component-namespace": "qrcode",
+        "component-name": "QRCodeFormField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "name": "Bag_ID",
+          "label": "Bag ID",
+          "helperText": "Scan QR code on the artefact bag",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "Context_Number": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Context Number",
+          "name": "Context_Number",
+          "helperText": "Enter the context number",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "HRID": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Human Readable ID",
+          "name": "HRID",
+          "helperText": "Auto-generated from Artefact ID and Bag ID",
+          "fullWidth": true,
+          "template": "{{Artefact_ID}}-{{Bag_ID}}",
+          "hrid": true
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "Class": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Class",
+          "name": "Class",
+          "helperText": "Select the artefact class",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Ceramic",
+                "value": "Ceramic"
+              },
+              {
+                "label": "Glass",
+                "value": "Glass"
+              },
+              {
+                "label": "Metal",
+                "value": "Metal"
+              },
+              {
+                "label": "Miscellaneous",
+                "value": "Miscellaneous"
+              },
+              {
+                "label": "Faunal",
+                "value": "Faunal"
+              },
+              {
+                "label": "Organic",
+                "value": "Organic"
+              },
+              {
+                "label": "Building Materials",
+                "value": "Building Materials"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "Quantity": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Quantity",
+          "name": "Quantity",
+          "helperText": "Enter the quantity of artefacts",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "Photograph": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "name": "Photograph",
+          "label": "Photograph",
+          "helperText": "Take a photo of the artefact(s)"
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "Note": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Note",
+          "name": "Note",
+          "helperText": "Additional notes about the artefact",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "rows": 3
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "HRID_Additional": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Related Artefact",
+          "name": "HRID_Additional",
+          "helperText": "Select the artefact this photo belongs to",
+          "fullWidth": true,
+          "related_type": "Artefact",
+          "relation_type": "is-related-to",
+          "multiple": false,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "Additional_Photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "name": "Additional_Photo",
+          "label": "Additional Photo",
+          "helperText": "Take additional photo of the artefact",
+          "required": true
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.required"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "Note_Additional": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Note",
+          "name": "Note_Additional",
+          "helperText": "Notes about this additional photo",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "rows": 3
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      }
+    },
+    "fviews": {
+      "Artefact-BasicInfo": {
+        "label": "Basic Info",
+        "fields": [
+          "Artefact_ID",
+          "Bag_ID",
+          "Context_Number",
+          "HRID"
+        ]
+      },
+      "Artefact-CountDetails": {
+        "label": "Count & Details",
+        "fields": [
+          "Class",
+          "Quantity",
+          "Photograph",
+          "Note"
+        ]
+      },
+      "AdditionalPhoto-Main": {
+        "label": "Additional Photo",
+        "fields": [
+          "HRID_Additional",
+          "Additional_Photo",
+          "Note_Additional"
+        ]
+      }
+    },
+    "viewsets": {
+      "Artefact": {
+        "label": "Artefact",
+        "views": ["Artefact-BasicInfo", "Artefact-CountDetails"]
+      },
+      "Additional_Photo": {
+        "label": "Additional Photo",
+        "views": ["AdditionalPhoto-Main"]
+      }
+    },
+    "visible_types": ["Artefact", "Additional_Photo"]
+  }
+}

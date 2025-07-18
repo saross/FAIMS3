@@ -1,0 +1,2821 @@
+{
+  "metadata": {
+    "name": "EMSA Camera Trapping Module",
+    "notebook_version": "2.0",
+    "schema_version": "1.0",
+    "project_lead": "EMSA",
+    "lead_institution": "Ecological Monitoring System Australia",
+    "pre_description": "Standardized camera trap deployment, re-equipping, and retrieval protocols for vertebrate fauna and pest monitoring",
+    "project_status": "Active",
+    "ispublic": false,
+    "isrequest": false,
+    "showQRCodeButton": false,
+    "accesses": ["admin", "moderator", "team"],
+    "filenames": []
+  },
+  "ui-specification": {
+    "fields": {
+      "deployment-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Deployment ID",
+          "name": "deployment-id",
+          "helperText": "Auto-generated from camera trap point ID and deployment start date",
+          "fullWidth": true,
+          "template": "{{camera-trap-point-id}}-{{deployment-start-date}}",
+          "hrid": true
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "survey-label": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Survey Label",
+          "name": "survey-label",
+          "helperText": "Descriptor to distinguish the camera trap deployment (e.g., June 30 array deployment)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "survey-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Survey Type",
+          "name": "survey-type",
+          "helperText": "Select the type of camera trap survey",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Camera trap point",
+                "value": "point"
+              },
+              {
+                "label": "Camera trap array - grid",
+                "value": "grid"
+              },
+              {
+                "label": "Camera trap array - transect",
+                "value": "transect"
+              },
+              {
+                "label": "Fauna plot",
+                "value": "plot"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "deployment-survey-start-datetime": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Survey Start Date & Time",
+          "name": "deployment-survey-start-datetime",
+          "helperText": "Start date/time of the deployment survey (auto-recorded)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "array-csv-upload": {
+        "component-namespace": "faims-custom",
+        "component-name": "FileUploader",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "name": "array-csv-upload",
+          "label": "Array Planned Points CSV",
+          "helperText": "Upload CSV file with 'Name', 'Latitude' and 'Longitude' columns (decimal degrees)",
+          "required": true
+        },
+        "validationSchema": [["yup.mixed"], ["yup.required"]],
+        "initialValue": null,
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "survey-type",
+              "value": "grid"
+            },
+            {
+              "operator": "equal",
+              "field": "survey-type",
+              "value": "transect"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "camera-trap-point-id": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Camera Trap Point ID",
+          "name": "camera-trap-point-id",
+          "helperText": "Unique identifier for this camera trap point (e.g., CTP001)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "deployment-start-date": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Deployment Start Date",
+          "name": "deployment-start-date",
+          "helperText": "Record the deployment start date (used to calculate deployment period)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "distance-to-closest-point": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Distance to Closest Camera Trap Point (m)",
+          "name": "distance-to-closest-point",
+          "helperText": "Record the distance to the closest camera trap point in metres",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "survey-type",
+              "value": "grid"
+            },
+            {
+              "operator": "equal",
+              "field": "survey-type",
+              "value": "transect"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "transect-number": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Transect Number",
+          "name": "transect-number",
+          "helperText": "Enter the transect number",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "1",
+        "condition": {
+          "operator": "equal",
+          "field": "survey-type",
+          "value": "transect"
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "fauna-plot": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Fauna Plot",
+          "name": "fauna-plot",
+          "helperText": "Select the fauna plot you are surveying in",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": []
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "survey-type",
+          "value": "plot"
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "target-taxa": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "label": "Target Taxa",
+          "name": "target-taxa",
+          "helperText": "Select target taxa (optional)",
+          "fullWidth": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Small mammals",
+                "value": "small_mammals"
+              },
+              {
+                "label": "Medium-sized mammals",
+                "value": "medium_mammals"
+              },
+              {
+                "label": "Large mammals",
+                "value": "large_mammals"
+              },
+              {
+                "label": "Vertebrate pests",
+                "value": "vertebrate_pests"
+              },
+              {
+                "label": "Birds",
+                "value": "birds"
+              },
+              {
+                "label": "Reptiles",
+                "value": "reptiles"
+              },
+              {
+                "label": "Amphibians",
+                "value": "amphibians"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "target-species": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Target Species",
+          "name": "target-species",
+          "helperText": "Enter target species names (optional)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "rows": 2
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "camera-trap-mount": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Camera Trap Mount",
+          "name": "camera-trap-mount",
+          "helperText": "Select the type of mount used",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Star dropper",
+                "value": "star_dropper"
+              },
+              {
+                "label": "Tree",
+                "value": "tree"
+              },
+              {
+                "label": "Post",
+                "value": "post"
+              },
+              {
+                "label": "Other",
+                "value": "other"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "camera-trap-location": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "Camera Trap Point Location",
+          "name": "camera-trap-location",
+          "helperText": "Record GPS location at the mounting post",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.object"], ["yup.required"]],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "focal-point-feature": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Focal Point Feature",
+          "name": "focal-point-feature",
+          "helperText": "What feature is the camera's focal point?",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Trail/Track",
+                "value": "trail"
+              },
+              {
+                "label": "Waterpoint",
+                "value": "waterpoint"
+              },
+              {
+                "label": "Bait Station",
+                "value": "bait_station"
+              },
+              {
+                "label": "Carcass",
+                "value": "carcass"
+              },
+              {
+                "label": "Den/Burrow",
+                "value": "den_burrow"
+              },
+              {
+                "label": "Tree/Log",
+                "value": "tree_log"
+              },
+              {
+                "label": "Palatable plant",
+                "value": "palatable_plant"
+              },
+              {
+                "label": "Other",
+                "value": "other"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "distance-to-feature": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Distance to Feature (m)",
+          "name": "distance-to-feature",
+          "helperText": "Distance from camera to focal point feature in metres",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "feature-photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "name": "feature-photo",
+          "label": "Feature Photo",
+          "helperText": "Take a photo of the focal point feature"
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "feature-comments": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Feature Comments",
+          "name": "feature-comments",
+          "helperText": "Any comments about the feature (optional)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "rows": 2
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "carcass-species": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Carcass Species",
+          "name": "carcass-species",
+          "helperText": "Enter the species of carcass used",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "focal-point-feature",
+          "value": "carcass"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "plant-species": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Plant Species",
+          "name": "plant-species",
+          "helperText": "Enter the species of palatable plant",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "focal-point-feature",
+          "value": "palatable_plant"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "use-bait-lure": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Use Bait or Lure?",
+          "name": "use-bait-lure",
+          "helperText": "Is this an active survey with bait or lure?",
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Yes",
+                "value": "yes"
+              },
+              {
+                "label": "No",
+                "value": "no"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "bait-station-mount": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Bait Station Mount",
+          "name": "bait-station-mount",
+          "helperText": "Type of mount for bait station",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Mounting post",
+                "value": "mounting_post"
+              },
+              {
+                "label": "Tent peg",
+                "value": "tent_peg"
+              },
+              {
+                "label": "Tree",
+                "value": "tree"
+              },
+              {
+                "label": "Other",
+                "value": "other"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "and",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "use-bait-lure",
+              "value": "yes"
+            },
+            {
+              "operator": "equal",
+              "field": "focal-point-feature",
+              "value": "bait_station"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "lure-height": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Lure Height (cm)",
+          "name": "lure-height",
+          "helperText": "Height of lure above ground in centimetres",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "use-bait-lure",
+          "value": "yes"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "lure-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Lure Type",
+          "name": "lure-type",
+          "helperText": "Type of lure used",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Food bait",
+                "value": "food_bait"
+              },
+              {
+                "label": "Olfactory/Scent lure",
+                "value": "olfactory_lure"
+              },
+              {
+                "label": "Visual lure",
+                "value": "visual_lure"
+              },
+              {
+                "label": "Audio lure",
+                "value": "audio_lure"
+              },
+              {
+                "label": "Mixed",
+                "value": "mixed"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "use-bait-lure",
+          "value": "yes"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "lure-variety": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Lure Variety",
+          "name": "lure-variety",
+          "helperText": "Specific lure used (e.g., peanut butter/oats/honey mix)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "use-bait-lure",
+          "value": "yes"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "camera-number": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Camera Number",
+          "name": "camera-number",
+          "helperText": "Camera's unique identifier/serial number",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "sd-card-number": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "SD Card Number",
+          "name": "sd-card-number",
+          "helperText": "SD card's unique identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "camera-make": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Camera Make",
+          "name": "camera-make",
+          "helperText": "Camera manufacturer (e.g., Reconyx, Bushnell)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "camera-model": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Camera Model",
+          "name": "camera-model",
+          "helperText": "Camera model",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "manufacture-year": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Manufacture Year",
+          "name": "manufacture-year",
+          "helperText": "Year of camera manufacture",
+          "fullWidth": true
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 2000], ["yup.max", 2030]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "illumination": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Illumination",
+          "name": "illumination",
+          "helperText": "Type of flash illumination",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "IR no glow",
+                "value": "ir_no_glow"
+              },
+              {
+                "label": "IR low glow",
+                "value": "ir_low_glow"
+              },
+              {
+                "label": "IR red glow",
+                "value": "ir_red_glow"
+              },
+              {
+                "label": "White flash",
+                "value": "white_flash"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "activation-mechanism": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Activation Mechanism",
+          "name": "activation-mechanism",
+          "helperText": "Sensor type",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "PIR (Passive Infrared)",
+                "value": "PIR"
+              },
+              {
+                "label": "AIR (Active Infrared)",
+                "value": "AIR"
+              },
+              {
+                "label": "Other",
+                "value": "other"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "PIR",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "trigger-speed-seconds": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Trigger Speed (seconds)",
+          "name": "trigger-speed-seconds",
+          "helperText": "Time from detection to capture in seconds",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "media-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Media Type",
+          "name": "media-type",
+          "helperText": "Image and/or video capture",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Image only",
+                "value": "image"
+              },
+              {
+                "label": "Video only",
+                "value": "video"
+              },
+              {
+                "label": "Image + Video",
+                "value": "image_video"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "images-per-trigger": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Images per Trigger",
+          "name": "images-per-trigger",
+          "helperText": "Number of images captured per trigger event",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "image"
+            },
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "image_video"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "image-interval-seconds": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Image Interval (seconds)",
+          "name": "image-interval-seconds",
+          "helperText": "Interval between images in seconds",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "image"
+            },
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "image_video"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "video-length": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Video Length",
+          "name": "video-length",
+          "helperText": "Video length in MM:SS format",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.matches", "^[0-5]?[0-9]:[0-5][0-9]$"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "video"
+            },
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "image_video"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "sensor-sensitivity": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Sensor Sensitivity",
+          "name": "sensor-sensitivity",
+          "helperText": "PIR sensor sensitivity setting",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Low",
+                "value": "low"
+              },
+              {
+                "label": "Medium",
+                "value": "medium"
+              },
+              {
+                "label": "High",
+                "value": "high"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "quiet-period": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Quiet Period",
+          "name": "quiet-period",
+          "helperText": "Quiet period in MM:SS format",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.matches", "^[0-5]?[0-9]:[0-5][0-9]$"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "aspect-ratio": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Aspect Ratio",
+          "name": "aspect-ratio",
+          "helperText": "Image aspect ratio",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "4:3",
+                "value": "4:3"
+              },
+              {
+                "label": "16:9",
+                "value": "16:9"
+              },
+              {
+                "label": "3:2",
+                "value": "3:2"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "image-quality": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Image Quality (megapixels)",
+          "name": "image-quality",
+          "helperText": "Image quality in megapixels",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "image"
+            },
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "image_video"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "video-resolution": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Video Resolution",
+          "name": "video-resolution",
+          "helperText": "Video resolution setting",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "480p",
+                "value": "480p"
+              },
+              {
+                "label": "720p",
+                "value": "720p"
+              },
+              {
+                "label": "1080p",
+                "value": "1080p"
+              },
+              {
+                "label": "4K",
+                "value": "4K"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "video"
+            },
+            {
+              "operator": "equal",
+              "field": "media-type",
+              "value": "image_video"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "day-night-recording": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Day/Night Recording",
+          "name": "day-night-recording",
+          "helperText": "Recording period setting",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "24 hours",
+                "value": "24h"
+              },
+              {
+                "label": "Day only",
+                "value": "day"
+              },
+              {
+                "label": "Night only",
+                "value": "night"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "24h",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "night-mode-shutter-speed": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Night Mode Shutter Speed (seconds)",
+          "name": "night-mode-shutter-speed",
+          "helperText": "Shutter speed for night captures in seconds",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "time-format": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Time Format",
+          "name": "time-format",
+          "helperText": "12 or 24 hour format",
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "12 hour",
+                "value": "12h"
+              },
+              {
+                "label": "24 hour",
+                "value": "24h"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "24h",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "temperature-unit": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Temperature Unit",
+          "name": "temperature-unit",
+          "helperText": "Unit for temperature display",
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Celsius",
+                "value": "C"
+              },
+              {
+                "label": "Fahrenheit",
+                "value": "F"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "C",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "battery-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Battery Type",
+          "name": "battery-type",
+          "helperText": "Type of batteries installed",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Alkaline",
+                "value": "alkaline"
+              },
+              {
+                "label": "Lithium",
+                "value": "lithium"
+              },
+              {
+                "label": "NiMH (rechargeable)",
+                "value": "nimh"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "user-label": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "User Label",
+          "name": "user-label",
+          "helperText": "Project/camera/point code displayed on images",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "time-lapse": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Time Lapse",
+          "name": "time-lapse",
+          "helperText": "Enable time lapse capture?",
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "On",
+                "value": "on"
+              },
+              {
+                "label": "Off",
+                "value": "off"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "off",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "time-lapse-interval": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Time Lapse Interval",
+          "name": "time-lapse-interval",
+          "helperText": "Time lapse interval in MM:SS format",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.matches", "^[0-5]?[0-9]:[0-5][0-9]$"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "time-lapse",
+          "value": "on"
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "time-lapse-schedule-start": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Time Lapse Schedule Start",
+          "name": "time-lapse-schedule-start",
+          "helperText": "Start time in HH:MM format",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.string"], ["yup.matches", "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "time-lapse",
+          "value": "on"
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "time-lapse-schedule-end": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Time Lapse Schedule End",
+          "name": "time-lapse-schedule-end",
+          "helperText": "End time in HH:MM format",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.string"], ["yup.matches", "^([01]?[0-9]|2[0-3]):[0-5][0-9]$"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "time-lapse",
+          "value": "on"
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "camera-height": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Camera Height (cm)",
+          "name": "camera-height",
+          "helperText": "Height of camera lens above ground (cm)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "camera-angle": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Camera Angle from Vertical (degrees)",
+          "name": "camera-angle",
+          "helperText": "Angle from vertical (0-90°, 90° = horizontal)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 90], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "camera-direction": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Camera Direction (degrees)",
+          "name": "camera-direction",
+          "helperText": "Compass bearing camera is facing (0-360°)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 360], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "detection-angle": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Detection Angle (degrees)",
+          "name": "detection-angle",
+          "helperText": "Angle relative to predicted path of target taxa/species",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 360], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "slope": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Slope (degrees)",
+          "name": "slope",
+          "helperText": "Ground slope at camera location (0-90°)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 90], ["yup.required"]],
+        "initialValue": "0",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "aspect": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Aspect (degrees)",
+          "name": "aspect",
+          "helperText": "Downslope direction (0-360°)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 360], ["yup.required"]],
+        "initialValue": "0",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "camera-trap-photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "name": "camera-trap-photo",
+          "label": "Camera Trap Photo",
+          "helperText": "Photo of deployed camera setup",
+          "required": true
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.required"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "habitat": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Habitat (Major Vegetation Group)",
+          "name": "habitat",
+          "helperText": "Major vegetation group at camera location (optional)",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "deployment-comments": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Additional Deployment Comments",
+          "name": "deployment-comments",
+          "helperText": "Any additional comments (optional)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "rows": 3
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "deployment-survey-end-datetime": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Survey End Date & Time",
+          "name": "deployment-survey-end-datetime",
+          "helperText": "End date/time of the deployment survey (auto-recorded)",
+          "fullWidth": true,
+          "required": false
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "reequip-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Re-equip ID",
+          "name": "reequip-id",
+          "helperText": "Auto-generated re-equip identifier",
+          "fullWidth": true,
+          "num_digits": 4,
+          "form_id": "CameraTrapReequip"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "deployment-reference": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Deployment Reference",
+          "name": "deployment-reference",
+          "helperText": "Select the deployment being re-equipped",
+          "fullWidth": true,
+          "related_type": "CameraTrapDeployment",
+          "relation_type": "is-related-to",
+          "multiple": false,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "reequip-survey-start-datetime": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Re-equip Survey Start Date & Time",
+          "name": "reequip-survey-start-datetime",
+          "helperText": "Start date/time of the re-equipping survey (auto-recorded)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "reequip-date": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Re-equipping Date",
+          "name": "reequip-date",
+          "helperText": "Record the re-equipping date",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "camera-operational-status": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Camera Operational Status",
+          "name": "camera-operational-status",
+          "helperText": "Camera status upon checking",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Operational",
+                "value": "operational"
+              },
+              {
+                "label": "SD card full",
+                "value": "sd_card_full"
+              },
+              {
+                "label": "SD card failure",
+                "value": "sd_card_failure"
+              },
+              {
+                "label": "Batteries flat",
+                "value": "batteries_flat"
+              },
+              {
+                "label": "Hardware failure",
+                "value": "hardware_failure"
+              },
+              {
+                "label": "Unknown failure",
+                "value": "unknown_failure"
+              },
+              {
+                "label": "Vandalism",
+                "value": "vandalism"
+              },
+              {
+                "label": "Missing/theft",
+                "value": "missing"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "number-of-images": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Number of Images",
+          "name": "number-of-images",
+          "helperText": "Number of images captured (optional)",
+          "fullWidth": true
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0]],
+        "initialValue": "",
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "operational"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "sd_card_full"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "sd_card_failure"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "batteries_flat"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "check-camera-needs-replacing": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "label": "Camera Needs Replacing",
+          "name": "check-camera-needs-replacing",
+          "helperText": "Check if camera needs to be replaced"
+        },
+        "validationSchema": [["yup.bool"]],
+        "initialValue": false,
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "hardware_failure"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "unknown_failure"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "vandalism"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "missing"
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "replacement-camera-number": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Replacement Camera Number",
+          "name": "replacement-camera-number",
+          "helperText": "Enter replacement camera's identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "check-camera-needs-replacing",
+          "value": true
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "replacement-battery-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Replacement Battery Type",
+          "name": "replacement-battery-type",
+          "helperText": "Type of replacement batteries",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Alkaline",
+                "value": "alkaline"
+              },
+              {
+                "label": "Lithium",
+                "value": "lithium"
+              },
+              {
+                "label": "NiMH (rechargeable)",
+                "value": "nimh"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "operational"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "sd_card_full"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "sd_card_failure"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "batteries_flat"
+            },
+            {
+              "operator": "equal",
+              "field": "check-camera-needs-replacing",
+              "value": true
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "replacement-sd-card-number": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Replacement SD Card Number",
+          "name": "replacement-sd-card-number",
+          "helperText": "Enter replacement SD card's identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "or",
+          "conditions": [
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "operational"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "sd_card_full"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "sd_card_failure"
+            },
+            {
+              "operator": "equal",
+              "field": "camera-operational-status",
+              "value": "batteries_flat"
+            },
+            {
+              "operator": "equal",
+              "field": "check-camera-needs-replacing",
+              "value": true
+            }
+          ]
+        },
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "reequip-camera-photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "name": "reequip-camera-photo",
+          "label": "Camera Trap Photo",
+          "helperText": "Photo of re-equipped camera setup",
+          "required": true
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.required"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "reequip-comments": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Additional Re-equipping Comments",
+          "name": "reequip-comments",
+          "helperText": "Any additional comments about the re-equipping (optional)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "rows": 3
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "reequip-survey-end-datetime": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Re-equip Survey End Date & Time",
+          "name": "reequip-survey-end-datetime",
+          "helperText": "End date/time of the re-equipping survey (auto-recorded)",
+          "fullWidth": true,
+          "required": false
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "retrieval-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Retrieval ID",
+          "name": "retrieval-id",
+          "helperText": "Auto-generated retrieval identifier",
+          "fullWidth": true,
+          "num_digits": 4,
+          "form_id": "CameraTrapRetrieval"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "retrieval-deployment-reference": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Deployment Reference",
+          "name": "retrieval-deployment-reference",
+          "helperText": "Select the deployment being retrieved",
+          "fullWidth": true,
+          "related_type": "CameraTrapDeployment",
+          "relation_type": "is-related-to",
+          "multiple": false,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "retrieval-survey-start-datetime": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Retrieval Survey Start Date & Time",
+          "name": "retrieval-survey-start-datetime",
+          "helperText": "Start date/time of the retrieval survey (auto-recorded)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "retrieval-date": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Retrieval Date",
+          "name": "retrieval-date",
+          "helperText": "Record the retrieval date (calculates deployment period)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "final-operational-status": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Final Operational Status",
+          "name": "final-operational-status",
+          "helperText": "Final status of the camera at retrieval",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "Operational",
+                "value": "operational"
+              },
+              {
+                "label": "SD card full",
+                "value": "sd_card_full"
+              },
+              {
+                "label": "SD card failure",
+                "value": "sd_card_failure"
+              },
+              {
+                "label": "Batteries flat",
+                "value": "batteries_flat"
+              },
+              {
+                "label": "Hardware failure",
+                "value": "hardware_failure"
+              },
+              {
+                "label": "Unknown failure",
+                "value": "unknown_failure"
+              },
+              {
+                "label": "Vandalism",
+                "value": "vandalism"
+              },
+              {
+                "label": "Missing/theft",
+                "value": "missing"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "final-number-of-images": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Number of Images",
+          "name": "final-number-of-images",
+          "helperText": "Final number of images captured (optional)",
+          "fullWidth": true
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "retrieval-comments": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Additional Retrieval Comments",
+          "name": "retrieval-comments",
+          "helperText": "Any additional comments (optional)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "rows": 3
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "retrieval-survey-end-datetime": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Retrieval Survey End Date & Time",
+          "name": "retrieval-survey-end-datetime",
+          "helperText": "End date/time of the retrieval survey (auto-recorded)",
+          "fullWidth": true,
+          "required": false
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      }
+    },
+    "fviews": {
+      "Deployment-Survey": {
+        "label": "Survey Details",
+        "fields": [
+          "deployment-id",
+          "survey-label",
+          "survey-type",
+          "deployment-survey-start-datetime",
+          "array-csv-upload"
+        ]
+      },
+      "Deployment-Point": {
+        "label": "Camera Trap Point",
+        "fields": [
+          "camera-trap-point-id",
+          "deployment-start-date",
+          "distance-to-closest-point",
+          "transect-number",
+          "fauna-plot",
+          "target-taxa",
+          "target-species"
+        ]
+      },
+      "Deployment-Location": {
+        "label": "Location & Feature",
+        "fields": [
+          "camera-trap-mount",
+          "camera-trap-location",
+          "focal-point-feature",
+          "distance-to-feature",
+          "feature-photo",
+          "feature-comments",
+          "carcass-species",
+          "plant-species"
+        ]
+      },
+      "Deployment-BaitLure": {
+        "label": "Bait/Lure Setup",
+        "fields": [
+          "use-bait-lure",
+          "bait-station-mount",
+          "lure-height",
+          "lure-type",
+          "lure-variety"
+        ]
+      },
+      "Deployment-Camera": {
+        "label": "Camera Information",
+        "fields": [
+          "camera-number",
+          "sd-card-number",
+          "camera-make",
+          "camera-model",
+          "manufacture-year",
+          "illumination",
+          "activation-mechanism",
+          "trigger-speed-seconds"
+        ]
+      },
+      "Deployment-Settings1": {
+        "label": "Camera Settings (Media)",
+        "fields": [
+          "media-type",
+          "images-per-trigger",
+          "image-interval-seconds",
+          "video-length",
+          "sensor-sensitivity",
+          "quiet-period",
+          "aspect-ratio",
+          "image-quality",
+          "video-resolution"
+        ]
+      },
+      "Deployment-Settings2": {
+        "label": "Camera Settings (General)",
+        "fields": [
+          "day-night-recording",
+          "night-mode-shutter-speed",
+          "time-format",
+          "temperature-unit",
+          "battery-type",
+          "user-label"
+        ]
+      },
+      "Deployment-TimeLapse": {
+        "label": "Time Lapse Settings",
+        "fields": [
+          "time-lapse",
+          "time-lapse-interval",
+          "time-lapse-schedule-start",
+          "time-lapse-schedule-end"
+        ]
+      },
+      "Deployment-Positioning": {
+        "label": "Camera Positioning",
+        "fields": [
+          "camera-height",
+          "camera-angle",
+          "camera-direction",
+          "detection-angle",
+          "slope",
+          "aspect"
+        ]
+      },
+      "Deployment-Documentation": {
+        "label": "Documentation",
+        "fields": [
+          "camera-trap-photo",
+          "habitat",
+          "deployment-comments",
+          "deployment-survey-end-datetime"
+        ]
+      },
+      "Reequip-Basic": {
+        "label": "Basic Information",
+        "fields": [
+          "reequip-id",
+          "deployment-reference",
+          "reequip-survey-start-datetime",
+          "reequip-date"
+        ]
+      },
+      "Reequip-Status": {
+        "label": "Camera Status",
+        "fields": [
+          "camera-operational-status",
+          "number-of-images",
+          "check-camera-needs-replacing"
+        ]
+      },
+      "Reequip-Replacement": {
+        "label": "Replacement Details",
+        "fields": [
+          "replacement-camera-number",
+          "replacement-battery-type",
+          "replacement-sd-card-number"
+        ]
+      },
+      "Reequip-Documentation": {
+        "label": "Documentation",
+        "fields": [
+          "reequip-camera-photo",
+          "reequip-comments",
+          "reequip-survey-end-datetime"
+        ]
+      },
+      "Retrieval-Basic": {
+        "label": "Basic Information",
+        "fields": [
+          "retrieval-id",
+          "retrieval-deployment-reference",
+          "retrieval-survey-start-datetime",
+          "retrieval-date"
+        ]
+      },
+      "Retrieval-Status": {
+        "label": "Final Status",
+        "fields": [
+          "final-operational-status",
+          "final-number-of-images"
+        ]
+      },
+      "Retrieval-Documentation": {
+        "label": "Documentation",
+        "fields": [
+          "retrieval-comments",
+          "retrieval-survey-end-datetime"
+        ]
+      }
+    },
+    "viewsets": {
+      "CameraTrapDeployment": {
+        "label": "Camera Trap Deployment",
+        "views": [
+          "Deployment-Survey",
+          "Deployment-Point",
+          "Deployment-Location",
+          "Deployment-BaitLure",
+          "Deployment-Camera",
+          "Deployment-Settings1",
+          "Deployment-Settings2",
+          "Deployment-TimeLapse",
+          "Deployment-Positioning",
+          "Deployment-Documentation"
+        ]
+      },
+      "CameraTrapReequip": {
+        "label": "Camera Trap Re-equipping",
+        "views": [
+          "Reequip-Basic",
+          "Reequip-Status",
+          "Reequip-Replacement",
+          "Reequip-Documentation"
+        ]
+      },
+      "CameraTrapRetrieval": {
+        "label": "Camera Trap Retrieval",
+        "views": [
+          "Retrieval-Basic",
+          "Retrieval-Status",
+          "Retrieval-Documentation"
+        ]
+      }
+    },
+    "visible_types": ["CameraTrapDeployment", "CameraTrapReequip", "CameraTrapRetrieval"]
+  }
+}

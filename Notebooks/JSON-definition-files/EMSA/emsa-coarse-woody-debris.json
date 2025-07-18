@@ -1,0 +1,720 @@
+{
+  "metadata": {
+    "name": "EMSA Coarse Woody Debris Module",
+    "notebook_version": "2.0",
+    "schema_version": "1.0",
+    "project_lead": "EMSA",
+    "lead_institution": "Ecological Monitoring System Australia",
+    "pre_description": "Electronic data collection for EMSA Coarse Woody Debris surveys matching Monitor version 1.0.7",
+    "project_status": "Active",
+    "ispublic": false,
+    "isrequest": false,
+    "showQRCodeButton": false,
+    "accesses": ["admin", "moderator", "team"],
+    "filenames": []
+  },
+  "ui-specification": {
+    "fields": {
+      "survey-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Survey ID",
+          "name": "survey-id",
+          "helperText": "Auto-generated survey identifier",
+          "fullWidth": true,
+          "num_digits": 4,
+          "form_id": "Survey"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "context": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Context",
+          "name": "context",
+          "helperText": "Enter the survey context",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "project": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Project",
+          "name": "project",
+          "helperText": "Enter the project name",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "plot": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Plot",
+          "name": "plot",
+          "helperText": "Enter the plot identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "visit": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Visit",
+          "name": "visit",
+          "helperText": "Enter the visit number or identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "observer-name": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Observer Name",
+          "name": "observer-name",
+          "helperText": "Enter the observer's name",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "start-datetime": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "Start Date & Time",
+          "name": "start-datetime",
+          "helperText": "Survey start date and time (24hr format)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "end-datetime": {
+        "component-namespace": "faims-custom",
+        "component-name": "DateTimeNow",
+        "type-returned": "faims-core::Datetime",
+        "component-parameters": {
+          "label": "End Date & Time",
+          "name": "end-datetime",
+          "helperText": "Survey end date and time (24hr format)",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "survey-area": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Area",
+          "name": "survey-area",
+          "helperText": "Select the survey area size",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "100x100 m",
+                "value": "100x100m"
+              },
+              {
+                "label": "40x40 m",
+                "value": "40x40m"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "diameter-threshold": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Diameter Threshold",
+          "name": "diameter-threshold",
+          "helperText": "Select the minimum diameter threshold",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "5 cm",
+                "value": "5cm"
+              },
+              {
+                "label": "10 cm",
+                "value": "10cm"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "length-threshold": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Length Threshold",
+          "name": "length-threshold",
+          "helperText": "Select the minimum length threshold",
+          "fullWidth": true,
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "50 cm",
+                "value": "50cm"
+              },
+              {
+                "label": "30 cm",
+                "value": "30cm"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "observation-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Observation ID",
+          "name": "observation-id",
+          "helperText": "Auto-generated observation identifier",
+          "fullWidth": true,
+          "num_digits": 4,
+          "form_id": "DeadWoodObservation"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "survey-reference": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Survey Reference",
+          "name": "survey-reference",
+          "helperText": "Select the survey this observation belongs to",
+          "fullWidth": true,
+          "related_type": "Survey",
+          "relation_type": "is-related-to",
+          "multiple": false,
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false
+          },
+          "uncertainty": {
+            "include": false
+          }
+        }
+      },
+      "location-waypoint": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "Location Waypoint",
+          "name": "location-waypoint",
+          "helperText": "Capture GPS location (lat/long)",
+          "fullWidth": true
+        },
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "debris-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Type",
+          "name": "debris-type",
+          "helperText": "Select CWD (Coarse Woody Debris) or TS (Tree Stump)",
+          "required": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "CWD (Coarse Woody Debris)",
+                "value": "CWD"
+              },
+              {
+                "label": "TS (Tree Stump)",
+                "value": "TS"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "cwd-widest-diameter": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "CWD Widest Diameter (cm)",
+          "name": "cwd-widest-diameter",
+          "helperText": "Enter the widest diameter in centimeters",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "debris-type",
+          "value": "CWD"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "cwd-narrowest-diameter": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "CWD Narrowest Diameter (cm)",
+          "name": "cwd-narrowest-diameter",
+          "helperText": "Enter the narrowest diameter in centimeters",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "debris-type",
+          "value": "CWD"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "cwd-length": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "CWD Length (cm)",
+          "name": "cwd-length",
+          "helperText": "Enter the length in centimeters",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "debris-type",
+          "value": "CWD"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "ts-height": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "TS Height (cm)",
+          "name": "ts-height",
+          "helperText": "Enter the tree stump height in centimeters",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "debris-type",
+          "value": "TS"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "ts-diameter": {
+        "component-namespace": "faims-custom",
+        "component-name": "NumberField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "TS Diameter (cm)",
+          "name": "ts-diameter",
+          "helperText": "Enter the tree stump diameter in centimeters",
+          "fullWidth": true,
+          "required": true
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "debris-type",
+          "value": "TS"
+        },
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "decay-class": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Decay Class",
+          "name": "decay-class",
+          "helperText": "Select the decay class (1-5)",
+          "fullWidth": true,
+          "ElementProps": {
+            "options": [
+              {
+                "label": "1 - Recently fallen, structurally intact",
+                "value": "1"
+              },
+              {
+                "label": "2 - Less intact but still hard when kicked",
+                "value": "2"
+              },
+              {
+                "label": "3 - Clearly decaying but supports own weight",
+                "value": "3"
+              },
+              {
+                "label": "4 - Cannot support own weight, soft to kick",
+                "value": "4"
+              },
+              {
+                "label": "5 - No longer retains shape, disintegrated",
+                "value": "5"
+              }
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "name": "photo",
+          "label": "Photo",
+          "helperText": "Take a photo of the woody debris"
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "photo-description": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Photo Description",
+          "name": "photo-description",
+          "helperText": "Describe the photo content",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "rows": 2
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      }
+    },
+    "fviews": {
+      "Survey-Details": {
+        "label": "Survey Details",
+        "fields": [
+          "survey-id",
+          "context",
+          "project",
+          "plot",
+          "visit"
+        ]
+      },
+      "Survey-Timing": {
+        "label": "Survey Timing",
+        "fields": [
+          "observer-name",
+          "start-datetime",
+          "end-datetime"
+        ]
+      },
+      "Survey-Parameters": {
+        "label": "Survey Parameters",
+        "fields": [
+          "survey-area",
+          "diameter-threshold",
+          "length-threshold"
+        ]
+      },
+      "Observation-Basic": {
+        "label": "Basic Information",
+        "fields": [
+          "observation-id",
+          "survey-reference",
+          "location-waypoint",
+          "debris-type"
+        ]
+      },
+      "Observation-Measurements": {
+        "label": "Measurements",
+        "fields": [
+          "cwd-widest-diameter",
+          "cwd-narrowest-diameter",
+          "cwd-length",
+          "ts-height",
+          "ts-diameter",
+          "decay-class"
+        ]
+      },
+      "Observation-Documentation": {
+        "label": "Documentation",
+        "fields": [
+          "photo",
+          "photo-description"
+        ]
+      }
+    },
+    "viewsets": {
+      "Survey": {
+        "label": "Coarse Woody Debris Survey",
+        "views": ["Survey-Details", "Survey-Timing", "Survey-Parameters"]
+      },
+      "DeadWoodObservation": {
+        "label": "Dead Wood Observation",
+        "views": ["Observation-Basic", "Observation-Measurements", "Observation-Documentation"]
+      }
+    },
+    "visible_types": ["Survey", "DeadWoodObservation"]
+  }
+}
