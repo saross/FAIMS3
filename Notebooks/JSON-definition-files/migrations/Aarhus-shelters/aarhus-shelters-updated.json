@@ -8,24 +8,12 @@
     "pre_description": "Data capture system for urban Cold-War civil defense amenity documentation in the Aarhus municipality, Denmark. This module supports precise documentation of spatial location, layout, and condition of surviving shelters (~250) and other civil defenses around the urban environment.",
     "project_status": "Active",
     "ispublic": false,
+    "isrequest": false,
     "showQRCodeButton": false,
-    "accesses": ["admin", "moderator", "team"],
-    "forms": {
-      "shelter-record": {
-        "annotation": {
-          "include": true,
-          "label": "annotation"
-        },
-        "uncertainty": {
-          "include": true,
-          "label": "uncertainty"
-        }
-      }
-    }
+    "accesses": ["admin", "moderator", "team"]
   },
   "ui-specification": {
     "fields": {
-      "// COMMENT: Auto-incrementing Feature ID - converted from FAIMS2 incAutoNum() function": {},
       "feature-id": {
         "component-namespace": "faims-custom",
         "component-name": "BasicAutoIncrementer",
@@ -34,14 +22,26 @@
           "label": "Feature ID",
           "name": "feature-id",
           "helperText": "Auto-generated unique identifier for this shelter",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
-          "// COMMENT": "Replaces FAIMS2 incAutoNum() function"
+          "num_digits": 5,
+          "form_id": "shelter-record"
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
-      "// COMMENT: Feature Type - converted from picture vocabulary to text-only dropdown": {},
       "feature-type": {
         "component-namespace": "faims-custom",
         "component-name": "Select",
@@ -50,7 +50,10 @@
           "label": "Feature Type",
           "name": "feature-type",
           "helperText": "Shelter is the most common type of civil defense structure in Aarhus. Types refer to the plan of the shelter below ground. Indicate which is the likely type if you can make it out during the visit. Use the certainty slider in case of uncertainty!",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "Shelter Type I", "value": "Shelter_Type_I"},
@@ -63,15 +66,23 @@
               {"label": "Emergency hospital", "value": "Emergency_hospital"},
               {"label": "Observation post", "value": "Observation_post"},
               {"label": "Other", "value": "Other"}
-            ],
-            "// COMMENT": "Original had picture URLs for each type - images need to be provided in separate documentation"
+            ]
           }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "type notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "type certainty"
+          }
+        }
       },
       
-      "// COMMENT: Shelter author - auto-populated from user context in FAIMS3": {},
       "shelter-author": {
         "component-namespace": "formik-material-ui",
         "component-name": "TextField",
@@ -81,25 +92,48 @@
           "name": "shelter-author",
           "helperText": "Recording user - automatically populated",
           "fullWidth": true,
-          "// COMMENT": "In FAIMS2, this was auto-populated via populateAuthorAndTimestamp()"
+          "variant": "outlined"
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": "{{user}}"
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
-      "// COMMENT: Shelter timestamp - using DateTimeNow for auto-population": {},
       "shelter-timestamp": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Shelter timestamp",
           "name": "shelter-timestamp",
-          "helperText": "Recording timestamp - automatically set to current date/time",
-          "// COMMENT": "Replaces FAIMS2 populateAuthorAndTimestamp() function"
+          "helperText": "Recording timestamp",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
-        "validationSchema": [["yup.mixed"]],
-        "initialValue": null
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "feature-source": {
@@ -110,6 +144,9 @@
           "label": "Feature Source",
           "name": "feature-source",
           "helperText": "What led you to the shelter or feature?",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "Informant", "value": "Informant"},
@@ -122,10 +159,19 @@
           }
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "source notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
-      "// COMMENT: Number of iterations - HTML glossary converted to helperText": {},
       "number-of-iterations-subtype": {
         "component-namespace": "faims-custom",
         "component-name": "Select",
@@ -134,6 +180,9 @@
           "label": "Number of Iterations Subtype",
           "name": "number-of-iterations-subtype",
           "helperText": "Please list the number of times that the basic shelter design repeats at your location and indicate if you can reliably gauge it. Each iteration should eventually be recorded separately, so we have a GPS for each entryway. See reference images: 1=single entrance, 2=two entrances (mirror or adjacent), 3=three entrances, etc.",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "NA", "value": "NA"},
@@ -144,12 +193,21 @@
               {"label": "5", "value": "5"},
               {"label": "Indeterminate", "value": "Indeterminate"},
               {"label": "Other", "value": "Other"}
-            ],
-            "// COMMENT": "Original had embedded HTML with images - glossary images need separate documentation"
+            ]
           }
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "iteration notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "count certainty"
+          }
+        }
       },
       
       "feature-description": {
@@ -161,14 +219,26 @@
           "name": "feature-description",
           "helperText": "Comment on feature preservation and, if the feature is not a shelter, describe its characteristics, such as shape, external markers and dimensions here. Authors should explicitly comment on feature subtype listed in the previous box.",
           "fullWidth": true,
+          "variant": "outlined",
           "multiline": true,
-          "rows": 4
+          "InputProps": {
+            "rows": 4
+          }
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
-      "// COMMENT: GPS coordinates - using TakePoint instead of manual entry": {},
       "gps-location": {
         "component-namespace": "faims-custom",
         "component-name": "TakePoint",
@@ -177,47 +247,20 @@
           "label": "GPS Location",
           "name": "gps-location",
           "helperText": "Capture current GPS location - replaces manual Lat/Long/Northing/Easting entry",
-          "// COMMENT": "Consolidates Latitude, Longitude, Northing, Easting, and Accuracy fields from FAIMS2"
+          "fullWidth": true,
+          "variant": "outlined"
         },
-        "validationSchema": [["yup.object"], ["yup.required"]],
-        "initialValue": null
-      },
-      
-      "// COMMENT: Manual coordinate fields for backwards compatibility": {},
-      "latitude": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
-        "type-returned": "faims-core::Number",
-        "component-parameters": {
-          "label": "Latitude",
-          "name": "latitude",
-          "helperText": "Manual entry - use GPS Location button instead",
-          "// COMMENT": "Preserved for data compatibility, but GPS Location is preferred"
-        },
-        "validationSchema": [["yup.number"], ["yup.nullable"]],
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
         "initialValue": null,
-        "condition": {
-          "operator": "equal",
-          "field": "manual-coordinates",
-          "value": true
-        }
-      },
-      
-      "longitude": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
-        "type-returned": "faims-core::Number",
-        "component-parameters": {
-          "label": "Longitude",
-          "name": "longitude",
-          "helperText": "Manual entry - use GPS Location button instead"
-        },
-        "validationSchema": [["yup.number"], ["yup.nullable"]],
-        "initialValue": null,
-        "condition": {
-          "operator": "equal",
-          "field": "manual-coordinates",
-          "value": true
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "location notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "GPS accuracy"
+          }
         }
       },
       
@@ -227,10 +270,87 @@
         "type-returned": "faims-core::Bool",
         "component-parameters": {
           "label": "Enter coordinates manually",
-          "name": "manual-coordinates"
+          "name": "manual-coordinates",
+          "fullWidth": true
         },
-        "validationSchema": [["yup.bool"]],
-        "initialValue": false
+        "validationSchema": [["yup.boolean"]],
+        "initialValue": false,
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      
+      "latitude": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Latitude",
+          "name": "latitude",
+          "helperText": "Manual entry - use GPS Location button instead",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "manual-coordinates",
+          "value": true
+        },
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      
+      "longitude": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Number",
+        "component-parameters": {
+          "label": "Longitude",
+          "name": "longitude",
+          "helperText": "Manual entry - use GPS Location button instead",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"]],
+        "initialValue": "",
+        "condition": {
+          "operator": "equal",
+          "field": "manual-coordinates",
+          "value": true
+        },
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "landuse-on-top": {
@@ -241,7 +361,10 @@
           "label": "Landuse on Top",
           "name": "landuse-on-top",
           "helperText": "Describe what covers the surface of the shelter. Is it overgrown with grass, covered with shrubs, or converted into a playground or asphalted area?",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "Grass", "value": "Grass"},
@@ -257,7 +380,17 @@
           }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "landuse notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "landuse-around": {
@@ -268,6 +401,9 @@
           "label": "Landuse Around",
           "name": "landuse-around",
           "helperText": "Describe briefly the setting of the shelter. If multiple different kinds of landuse co-occur, choose the majority and then add the rest in annotation",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "Other", "value": "Other"},
@@ -282,7 +418,17 @@
           }
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "setting notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "overview-photo": {
@@ -292,10 +438,26 @@
         "component-parameters": {
           "label": "Overview Photo",
           "name": "overview-photo",
-          "helperText": "Take a photo of the entire extent of the feature with a scale within."
+          "helperText": "Take a photo of the entire extent of the feature with a scale within.",
+          "fullWidth": true,
+          "variant": "outlined"
         },
-        "validationSchema": [["yup.mixed"]],
-        "initialValue": null
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "photo notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "locale-description": {
@@ -307,14 +469,26 @@
           "name": "locale-description",
           "helperText": "Describe the environs of the shelter or feature, and specify its address so that others can find it easily after you.",
           "fullWidth": true,
+          "variant": "outlined",
           "multiline": true,
-          "rows": 3
+          "InputProps": {
+            "rows": 3
+          }
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
-      "// COMMENT: Access tab fields": {},
       "entryway-type": {
         "component-namespace": "faims-custom",
         "component-name": "Select",
@@ -323,7 +497,10 @@
           "label": "Entryway Type",
           "name": "entryway-type",
           "helperText": "Select from the list or define the type using Other + Annotation",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "Concrete slabs", "value": "Concrete_slabs"},
@@ -335,7 +512,17 @@
           }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "entryway notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "accessibility-of-shelter-during-visit": {
@@ -346,7 +533,10 @@
           "label": "Accessibility of Shelter During Visit",
           "name": "accessibility-of-shelter-during-visit",
           "helperText": "Choose a field from the dropdown",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "NA", "value": "NA"},
@@ -359,7 +549,17 @@
           }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "access notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "entryway-faces-direction": {
@@ -370,7 +570,10 @@
           "label": "Entryway Faces Direction",
           "name": "entryway-faces-direction",
           "helperText": "Use a compass to measure which way the doorway is facing. Use this terminology: West-northwest (WNW) North-northwest (NNW) North-northeast (NNE) East-northeast (ENE) East-southeast (ESE) South-southeast (SSE) South-southwest (SSW) West-southwest (WSW)",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "NNW", "value": "NNW"},
@@ -395,7 +598,17 @@
           }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "direction notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "compass accuracy"
+          }
+        }
       },
       
       "comments-on-entryway-and-access": {
@@ -407,11 +620,24 @@
           "name": "comments-on-entryway-and-access",
           "helperText": "Indicate whether there is easy pedestrian access to the shelter. (eg. that it is not in the middle of a two-lane thoroughfare)",
           "fullWidth": true,
+          "variant": "outlined",
           "multiline": true,
-          "rows": 3
+          "InputProps": {
+            "rows": 3
+          }
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "entryway-photo": {
@@ -420,10 +646,26 @@
         "type-returned": "faims-attachment::Files",
         "component-parameters": {
           "label": "Entryway Photo",
-          "name": "entryway-photo"
+          "name": "entryway-photo",
+          "fullWidth": true,
+          "variant": "outlined"
         },
-        "validationSchema": [["yup.mixed"]],
-        "initialValue": null
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "photo notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "emergency-exit-shape": {
@@ -434,7 +676,10 @@
           "label": "Emergency Exit Shape",
           "name": "emergency-exit-shape",
           "helperText": "Indicate the shape of emergency exit. If not detectable, select NA.",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "Round", "value": "Round"},
@@ -445,7 +690,17 @@
           }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "shape notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "identification certainty"
+          }
+        }
       },
       
       "emergency-exit-location": {
@@ -456,7 +711,10 @@
           "label": "Emergency Exit Location",
           "name": "emergency-exit-location",
           "helperText": "The specific location of an emergency exit will vary with shelter type. A round shelter will have this exit on the top center, while a square shelter will have it off center, to the side or a corner. Please indicate its location relative to shelter plan and use Annotation or pictures for more detail",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {"label": "Central", "value": "Central"},
@@ -468,7 +726,17 @@
           }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "location notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "notes-on-emergency-exit": {
@@ -478,10 +746,21 @@
         "component-parameters": {
           "label": "Notes on Emergency Exit",
           "name": "notes-on-emergency-exit",
-          "fullWidth": true
+          "fullWidth": true,
+          "variant": "outlined"
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "emergency-exit-photo": {
@@ -491,26 +770,56 @@
         "component-parameters": {
           "label": "Emergency Exit Photo",
           "name": "emergency-exit-photo",
-          "helperText": "Take an extra photo of the emergency exit if it is obscured in the Overview photo"
+          "helperText": "Take an extra photo of the emergency exit if it is obscured in the Overview photo",
+          "fullWidth": true,
+          "variant": "outlined"
         },
-        "validationSchema": [["yup.mixed"]],
-        "initialValue": null
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "photo notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "distance-from-swan-neck-to-emergency-exit-m": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Distance from Swan neck to Emergency Exit (m)",
           "name": "distance-from-swan-neck-to-emergency-exit-m",
-          "helperText": "Can you find a turned tube \"swan neck ventilation\" near the foot of the shelter? If so, measure its distance to the emergency exit in METERS"
+          "helperText": "Can you find a turned tube \"swan neck ventilation\" near the foot of the shelter? If so, measure its distance to the emergency exit in METERS",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
         },
-        "validationSchema": [["yup.number"], ["yup.nullable"]],
-        "initialValue": null
+        "validationSchema": [["yup.number"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "measurement notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "measurement accuracy"
+          }
+        }
       },
       
-      "// COMMENT: Interior tab fields": {},
       "interior-description": {
         "component-namespace": "formik-material-ui",
         "component-name": "MultipleTextField",
@@ -520,11 +829,24 @@
           "name": "interior-description",
           "helperText": "If the shelter is accessible, look inside and provide a description of internal shape, contents, condition and status.",
           "fullWidth": true,
+          "variant": "outlined",
           "multiline": true,
-          "rows": 4
+          "InputProps": {
+            "rows": 4
+          }
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "interior-photo": {
@@ -533,10 +855,26 @@
         "type-returned": "faims-attachment::Files",
         "component-parameters": {
           "label": "Interior Photo",
-          "name": "interior-photo"
+          "name": "interior-photo",
+          "fullWidth": true,
+          "variant": "outlined"
         },
-        "validationSchema": [["yup.mixed"]],
-        "initialValue": null
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "photo notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "comments-and-recommendations": {
@@ -547,14 +885,26 @@
           "label": "Comments and Recommendations",
           "name": "comments-and-recommendations",
           "fullWidth": true,
+          "variant": "outlined",
           "multiline": true,
-          "rows": 3
+          "InputProps": {
+            "rows": 3
+          }
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
-      "// COMMENT: Shape entity fields - simplified annotation": {},
       "shape-label": {
         "component-namespace": "formik-material-ui",
         "component-name": "TextField",
@@ -563,10 +913,21 @@
           "label": "Label",
           "name": "shape-label",
           "helperText": "Label for the shape annotation",
-          "fullWidth": true
+          "fullWidth": true,
+          "variant": "outlined"
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       },
       
       "shape-note": {
@@ -577,11 +938,24 @@
           "label": "Note",
           "name": "shape-note",
           "fullWidth": true,
+          "variant": "outlined",
           "multiline": true,
-          "rows": 3
+          "InputProps": {
+            "rows": 3
+          }
         },
         "validationSchema": [["yup.string"]],
-        "initialValue": ""
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
       }
     },
     
@@ -641,11 +1015,16 @@
     "viewsets": {
       "shelter-record": {
         "label": "Shelter",
-        "views": ["general-section", "access-section", "interior-section"]
+        "views": ["general-section", "access-section", "interior-section"],
+        "hridField": "feature-id",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
       },
       "shape-annotation": {
         "label": "Shape",
-        "views": ["shape-section"]
+        "views": ["shape-section"],
+        "hridField": "shape-label",
+        "publishButtonBehaviour": "always"
       }
     },
     

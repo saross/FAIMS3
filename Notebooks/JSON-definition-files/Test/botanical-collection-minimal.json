@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "notebook_version": "1.0",
+    "schema_version": "1.0",
+    "name": "Botanical Collection - Minimal",
+    "accesses": ["admin", "moderator", "team"],
+    "ispublic": false,
+    "isrequest": false,
+    "lead_institution": "Test Institution",
+    "project_lead": "Test Lead",
+    "project_status": "New",
+    "pre_description": "A minimal botanical collection notebook for testing",
+    "showQRCodeButton": false
+  },
+  "ui-specification": {
+    "fields": {
+      "specimen-id": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Specimen ID",
+          "fullWidth": true,
+          "helperText": "Enter the specimen identifier",
+          "variant": "outlined",
+          "required": true,
+          "name": "specimen-id"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "species-name": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Species Name",
+          "fullWidth": true,
+          "helperText": "Scientific name of the specimen",
+          "variant": "outlined",
+          "required": true,
+          "name": "species-name"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "uncertainty"
+          }
+        }
+      }
+    },
+    "fviews": {
+      "specimen-view": {
+        "fields": ["specimen-id", "species-name"],
+        "label": "Specimen Details",
+        "uidesign": "form"
+      }
+    },
+    "viewsets": {
+      "specimen": {
+        "views": ["specimen-view"],
+        "label": "Botanical Specimen",
+        "publishButtonBehaviour": "always"
+      }
+    },
+    "visible_types": ["specimen"]
+  }
+}

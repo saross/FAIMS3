@@ -1,0 +1,495 @@
+{
+  "metadata": {
+    "notebook_version": "1.0",
+    "schema_version": "1.0",
+    "name": "Botanical Collection - Complete",
+    "accesses": ["admin", "moderator", "team"],
+    "ispublic": false,
+    "isrequest": false,
+    "lead_institution": "Botanical Research Institute",
+    "project_lead": "Dr. Flora Expert",
+    "project_status": "Active",
+    "pre_description": "A comprehensive botanical collection notebook for field surveys and herbarium specimens",
+    "showQRCodeButton": true
+  },
+  "ui-specification": {
+    "fields": {
+      "specimen-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Specimen ID",
+          "name": "specimen-id",
+          "id": "specimen-id",
+          "variant": "outlined",
+          "required": true,
+          "num_digits": 5,
+          "form_id": "specimen"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "hrid-specimen": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Collection Number",
+          "fullWidth": true,
+          "name": "hrid-specimen",
+          "helperText": "Auto-generated collection number",
+          "required": true,
+          "template": "BOT-{{collection-date}}-{{specimen-id}}",
+          "InputProps": {
+            "type": "text",
+            "readOnly": true
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "collection-date": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Collection Date",
+          "fullWidth": true,
+          "helperText": "Date specimen was collected",
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "date"
+          },
+          "name": "collection-date"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "collector-name": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Collector Name",
+          "fullWidth": true,
+          "helperText": "Name of person who collected the specimen",
+          "variant": "outlined",
+          "required": true,
+          "name": "collector-name"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "location-gps": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "GPS Location",
+          "fullWidth": true,
+          "name": "location-gps",
+          "id": "location-gps",
+          "helperText": "Click to record current GPS location",
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "location notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "GPS accuracy"
+          }
+        }
+      },
+      "habitat-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Habitat Type",
+          "fullWidth": true,
+          "helperText": "Select the habitat type",
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "forest", "label": "Forest"},
+              {"value": "grassland", "label": "Grassland"},
+              {"value": "wetland", "label": "Wetland"},
+              {"value": "coastal", "label": "Coastal"},
+              {"value": "alpine", "label": "Alpine"},
+              {"value": "desert", "label": "Desert"},
+              {"value": "urban", "label": "Urban"},
+              {"value": "agricultural", "label": "Agricultural"},
+              {"value": "other", "label": "Other"}
+            ]
+          },
+          "name": "habitat-type"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "habitat notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "species-name": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Species Name",
+          "fullWidth": true,
+          "helperText": "Scientific name (genus species)",
+          "variant": "outlined",
+          "required": true,
+          "name": "species-name"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "taxonomic notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "identification confidence"
+          }
+        }
+      },
+      "common-name": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Common Name",
+          "fullWidth": true,
+          "helperText": "Common or vernacular name",
+          "variant": "outlined",
+          "required": false,
+          "name": "common-name"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "family": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Family",
+          "fullWidth": true,
+          "helperText": "Taxonomic family",
+          "variant": "outlined",
+          "required": false,
+          "name": "family"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "specimen-photos": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "Specimen Photos",
+          "fullWidth": true,
+          "name": "specimen-photos",
+          "id": "specimen-photos",
+          "helperText": "Take photos of the specimen",
+          "variant": "outlined"
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "photo notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "plant-height": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Plant Height (cm)",
+          "fullWidth": true,
+          "helperText": "Height in centimeters",
+          "variant": "outlined",
+          "required": false,
+          "InputProps": {
+            "type": "number"
+          },
+          "name": "plant-height"
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 10000]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "measurement notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "measurement accuracy"
+          }
+        }
+      },
+      "flower-color": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "label": "Flower Colors",
+          "fullWidth": true,
+          "helperText": "Select all colors present",
+          "variant": "outlined",
+          "required": false,
+          "select": true,
+          "SelectProps": {
+            "multiple": true
+          },
+          "ElementProps": {
+            "options": [
+              {"value": "white", "label": "White"},
+              {"value": "yellow", "label": "Yellow"},
+              {"value": "orange", "label": "Orange"},
+              {"value": "red", "label": "Red"},
+              {"value": "pink", "label": "Pink"},
+              {"value": "purple", "label": "Purple"},
+              {"value": "blue", "label": "Blue"},
+              {"value": "green", "label": "Green"},
+              {"value": "brown", "label": "Brown"},
+              {"value": "black", "label": "Black"}
+            ]
+          },
+          "name": "flower-color"
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "color notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "abundance": {
+        "component-namespace": "faims-custom",
+        "component-name": "RadioGroup",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Abundance",
+          "fullWidth": true,
+          "helperText": "Relative abundance at location",
+          "variant": "outlined",
+          "required": false,
+          "ElementProps": {
+            "options": [
+              {"value": "rare", "label": "Rare (1-2 individuals)"},
+              {"value": "uncommon", "label": "Uncommon (3-10 individuals)"},
+              {"value": "common", "label": "Common (11-100 individuals)"},
+              {"value": "abundant", "label": "Abundant (>100 individuals)"}
+            ]
+          },
+          "name": "abundance"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "abundance notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "estimate confidence"
+          }
+        }
+      },
+      "field-notes": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Field Notes",
+          "fullWidth": true,
+          "helperText": "Additional observations and notes",
+          "variant": "outlined",
+          "required": false,
+          "multiline": true,
+          "InputProps": {
+            "rows": 4
+          },
+          "name": "field-notes"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "herbarium-status": {
+        "component-namespace": "faims-custom",
+        "component-name": "Checkbox",
+        "type-returned": "faims-core::Bool",
+        "component-parameters": {
+          "label": "Herbarium Specimen Collected",
+          "fullWidth": true,
+          "helperText": "Was a physical specimen collected?",
+          "variant": "outlined",
+          "required": false,
+          "name": "herbarium-status"
+        },
+        "validationSchema": [["yup.boolean"]],
+        "initialValue": false,
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      }
+    },
+    "fviews": {
+      "collection-info": {
+        "fields": ["specimen-id", "hrid-specimen", "collection-date", "collector-name"],
+        "label": "Collection Information",
+        "uidesign": "form",
+        "description": "Basic collection metadata"
+      },
+      "location-habitat": {
+        "fields": ["location-gps", "habitat-type"],
+        "label": "Location & Habitat",
+        "uidesign": "form",
+        "description": "Location and environmental data"
+      },
+      "taxonomy": {
+        "fields": ["species-name", "common-name", "family"],
+        "label": "Taxonomy",
+        "uidesign": "form",
+        "description": "Taxonomic identification"
+      },
+      "morphology": {
+        "fields": ["plant-height", "flower-color", "specimen-photos"],
+        "label": "Morphology",
+        "uidesign": "form",
+        "description": "Physical characteristics"
+      },
+      "ecology-notes": {
+        "fields": ["abundance", "field-notes", "herbarium-status"],
+        "label": "Ecology & Notes",
+        "uidesign": "form",
+        "description": "Ecological data and additional notes"
+      }
+    },
+    "viewsets": {
+      "specimen": {
+        "views": ["collection-info", "location-habitat", "taxonomy", "morphology", "ecology-notes"],
+        "label": "Botanical Specimen",
+        "hridField": "hrid-specimen",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
+      }
+    },
+    "visible_types": ["specimen"]
+  }
+}

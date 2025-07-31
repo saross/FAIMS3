@@ -24,6 +24,7 @@
           "name": "survey-id",
           "helperText": "Auto-generated survey identifier",
           "fullWidth": true,
+          "variant": "outlined",
           "num_digits": 4,
           "form_id": "Survey"
         },
@@ -31,10 +32,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -54,10 +57,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -77,10 +82,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -100,10 +107,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -123,10 +132,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -146,54 +157,68 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "start-datetime": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Start Date & Time",
           "name": "start-datetime",
           "helperText": "Survey start date and time (24hr format)",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "end-datetime": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "End Date & Time",
           "name": "end-datetime",
           "helperText": "Survey end date and time (24hr format)",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -206,7 +231,9 @@
           "name": "survey-area",
           "helperText": "Select the survey area size",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -224,10 +251,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -240,7 +269,9 @@
           "name": "diameter-threshold",
           "helperText": "Select the minimum diameter threshold",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -258,10 +289,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -274,7 +307,9 @@
           "name": "length-threshold",
           "helperText": "Select the minimum length threshold",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -292,10 +327,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -308,6 +345,7 @@
           "name": "observation-id",
           "helperText": "Auto-generated observation identifier",
           "fullWidth": true,
+          "variant": "outlined",
           "num_digits": 4,
           "form_id": "DeadWoodObservation"
         },
@@ -315,10 +353,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -331,6 +371,7 @@
           "name": "survey-reference",
           "helperText": "Select the survey this observation belongs to",
           "fullWidth": true,
+          "variant": "outlined",
           "related_type": "Survey",
           "relation_type": "is-related-to",
           "multiple": false,
@@ -340,10 +381,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -355,7 +398,8 @@
           "label": "Location Waypoint",
           "name": "location-waypoint",
           "helperText": "Capture GPS location (lat/long)",
-          "fullWidth": true
+          "fullWidth": true,
+          "variant": "outlined"
         },
         "validationSchema": [["yup.object"], ["yup.nullable"]],
         "initialValue": null,
@@ -406,15 +450,19 @@
         }
       },
       "cwd-widest-diameter": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
-        "type-returned": "faims-core::Number",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
         "component-parameters": {
           "label": "CWD Widest Diameter (cm)",
           "name": "cwd-widest-diameter",
           "helperText": "Enter the widest diameter in centimeters",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -435,15 +483,19 @@
         }
       },
       "cwd-narrowest-diameter": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
-        "type-returned": "faims-core::Number",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
         "component-parameters": {
           "label": "CWD Narrowest Diameter (cm)",
           "name": "cwd-narrowest-diameter",
           "helperText": "Enter the narrowest diameter in centimeters",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -464,15 +516,19 @@
         }
       },
       "cwd-length": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
-        "type-returned": "faims-core::Number",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
         "component-parameters": {
           "label": "CWD Length (cm)",
           "name": "cwd-length",
           "helperText": "Enter the length in centimeters",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -493,15 +549,19 @@
         }
       },
       "ts-height": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
-        "type-returned": "faims-core::Number",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
         "component-parameters": {
           "label": "TS Height (cm)",
           "name": "ts-height",
           "helperText": "Enter the tree stump height in centimeters",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -522,15 +582,19 @@
         }
       },
       "ts-diameter": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
-        "type-returned": "faims-core::Number",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
         "component-parameters": {
           "label": "TS Diameter (cm)",
           "name": "ts-diameter",
           "helperText": "Enter the tree stump diameter in centimeters",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -559,6 +623,8 @@
           "name": "decay-class",
           "helperText": "Select the decay class (1-5)",
           "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -604,7 +670,9 @@
         "component-parameters": {
           "name": "photo",
           "label": "Photo",
-          "helperText": "Take a photo of the woody debris"
+          "helperText": "Take a photo of the woody debris",
+          "fullWidth": true,
+          "variant": "outlined"
         },
         "validationSchema": [
           ["yup.array"],
@@ -634,7 +702,9 @@
           "fullWidth": true,
           "variant": "outlined",
           "multiline": true,
-          "rows": 2
+          "InputProps": {
+            "rows": 2
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
@@ -708,11 +778,17 @@
     "viewsets": {
       "Survey": {
         "label": "Coarse Woody Debris Survey",
-        "views": ["Survey-Details", "Survey-Timing", "Survey-Parameters"]
+        "views": ["Survey-Details", "Survey-Timing", "Survey-Parameters"],
+        "hridField": "survey-id",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
       },
       "DeadWoodObservation": {
         "label": "Dead Wood Observation",
-        "views": ["Observation-Basic", "Observation-Measurements", "Observation-Documentation"]
+        "views": ["Observation-Basic", "Observation-Measurements", "Observation-Documentation"],
+        "hridField": "observation-id",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
       }
     },
     "visible_types": ["Survey", "DeadWoodObservation"]

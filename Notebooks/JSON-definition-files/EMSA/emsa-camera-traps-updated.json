@@ -10,8 +10,7 @@
     "ispublic": false,
     "isrequest": false,
     "showQRCodeButton": false,
-    "accesses": ["admin", "moderator", "team"],
-    "filenames": []
+    "accesses": ["admin", "moderator", "team"]
   },
   "ui-specification": {
     "fields": {
@@ -24,17 +23,23 @@
           "name": "deployment-id",
           "helperText": "Auto-generated from camera trap point ID and deployment start date",
           "fullWidth": true,
+          "variant": "outlined",
           "template": "{{camera-trap-point-id}}-{{deployment-start-date}}",
-          "hrid": true
+          "InputProps": {
+            "type": "text",
+            "readOnly": true
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -54,10 +59,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -70,7 +77,9 @@
           "name": "survey-type",
           "helperText": "Select the type of camera trap survey",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -96,32 +105,40 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "deployment-survey-start-datetime": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Survey Start Date & Time",
           "name": "deployment-survey-start-datetime",
-          "helperText": "Start date/time of the deployment survey (auto-recorded)",
+          "helperText": "Start date/time of the deployment survey",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -130,9 +147,11 @@
         "component-name": "FileUploader",
         "type-returned": "faims-attachment::Files",
         "component-parameters": {
-          "name": "array-csv-upload",
           "label": "Array Planned Points CSV",
+          "name": "array-csv-upload",
           "helperText": "Upload CSV file with 'Name', 'Latitude' and 'Longitude' columns (decimal degrees)",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true
         },
         "validationSchema": [["yup.mixed"], ["yup.required"]],
@@ -154,10 +173,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -177,45 +198,57 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "deployment-start-date": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Deployment Start Date",
           "name": "deployment-start-date",
           "helperText": "Record the deployment start date (used to calculate deployment period)",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "distance-to-closest-point": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Distance to Closest Camera Trap Point (m)",
           "name": "distance-to-closest-point",
           "helperText": "Record the distance to the closest camera trap point in metres",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -236,23 +269,29 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "transect-number": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Transect Number",
           "name": "transect-number",
           "helperText": "Enter the transect number",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "1",
@@ -263,10 +302,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -279,7 +320,9 @@
           "name": "fauna-plot",
           "helperText": "Select the fauna plot you are surveying in",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": []
           }
@@ -293,10 +336,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -309,6 +354,11 @@
           "name": "target-taxa",
           "helperText": "Select target taxa (optional)",
           "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "SelectProps": {
+            "multiple": true
+          },
           "ElementProps": {
             "options": [
               {
@@ -346,10 +396,12 @@
         "initialValue": [],
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -364,16 +416,20 @@
           "fullWidth": true,
           "variant": "outlined",
           "multiline": true,
-          "rows": 2
+          "InputProps": {
+            "rows": 2
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -386,7 +442,9 @@
           "name": "camera-trap-mount",
           "helperText": "Select the type of mount used",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -412,10 +470,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -428,16 +488,19 @@
           "name": "camera-trap-location",
           "helperText": "Record GPS location at the mounting post",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true
         },
         "validationSchema": [["yup.object"], ["yup.required"]],
         "initialValue": null,
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -450,7 +513,9 @@
           "name": "focal-point-feature",
           "helperText": "What feature is the camera's focal point?",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -496,20 +561,25 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "distance-to-feature": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Distance to Feature (m)",
           "name": "distance-to-feature",
           "helperText": "Distance from camera to focal point feature in metres",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -529,9 +599,11 @@
         "component-name": "TakePhoto",
         "type-returned": "faims-attachment::Files",
         "component-parameters": {
-          "name": "feature-photo",
           "label": "Feature Photo",
-          "helperText": "Take a photo of the focal point feature"
+          "name": "feature-photo",
+          "helperText": "Take a photo of the focal point feature",
+          "fullWidth": true,
+          "variant": "outlined"
         },
         "validationSchema": [
           ["yup.array"],
@@ -541,10 +613,12 @@
         "initialValue": null,
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -559,16 +633,20 @@
           "fullWidth": true,
           "variant": "outlined",
           "multiline": true,
-          "rows": 2
+          "InputProps": {
+            "rows": 2
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -597,7 +675,8 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -626,7 +705,8 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -638,6 +718,8 @@
           "label": "Use Bait or Lure?",
           "name": "use-bait-lure",
           "helperText": "Is this an active survey with bait or lure?",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
           "ElementProps": {
             "options": [
@@ -656,10 +738,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -672,7 +756,9 @@
           "name": "bait-station-mount",
           "helperText": "Type of mount for bait station",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -713,23 +799,29 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "lure-height": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Lure Height (cm)",
           "name": "lure-height",
           "helperText": "Height of lure above ground in centimetres",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -758,7 +850,9 @@
           "name": "lure-type",
           "helperText": "Type of lure used",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -797,7 +891,8 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -826,7 +921,8 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -846,10 +942,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -869,10 +967,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -892,10 +992,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -915,31 +1017,39 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "manufacture-year": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Manufacture Year",
           "name": "manufacture-year",
           "helperText": "Year of camera manufacture",
-          "fullWidth": true
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.min", 2000], ["yup.max", 2030]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -952,7 +1062,9 @@
           "name": "illumination",
           "helperText": "Type of flash illumination",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -978,10 +1090,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -994,7 +1108,9 @@
           "name": "activation-mechanism",
           "helperText": "Sensor type",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -1016,32 +1132,40 @@
         "initialValue": "PIR",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "trigger-speed-seconds": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Trigger Speed (seconds)",
           "name": "trigger-speed-seconds",
           "helperText": "Time from detection to capture in seconds",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1054,7 +1178,9 @@
           "name": "media-type",
           "helperText": "Image and/or video capture",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -1076,23 +1202,29 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "images-per-trigger": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Images per Trigger",
           "name": "images-per-trigger",
           "helperText": "Number of images captured per trigger event",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -1113,23 +1245,29 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "image-interval-seconds": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Image Interval (seconds)",
           "name": "image-interval-seconds",
           "helperText": "Interval between images in seconds",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.required"]],
         "initialValue": "",
@@ -1150,10 +1288,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1188,10 +1328,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1204,7 +1346,9 @@
           "name": "sensor-sensitivity",
           "helperText": "PIR sensor sensitivity setting",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -1226,10 +1370,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1249,10 +1395,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1265,7 +1413,9 @@
           "name": "aspect-ratio",
           "helperText": "Image aspect ratio",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -1287,23 +1437,29 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "image-quality": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Image Quality (megapixels)",
           "name": "image-quality",
           "helperText": "Image quality in megapixels",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -1324,10 +1480,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1340,7 +1498,9 @@
           "name": "video-resolution",
           "helperText": "Video resolution setting",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -1381,10 +1541,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1397,7 +1559,9 @@
           "name": "day-night-recording",
           "helperText": "Recording period setting",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -1419,32 +1583,40 @@
         "initialValue": "24h",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "night-mode-shutter-speed": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Night Mode Shutter Speed (seconds)",
           "name": "night-mode-shutter-speed",
           "helperText": "Shutter speed for night captures in seconds",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1456,6 +1628,8 @@
           "label": "Time Format",
           "name": "time-format",
           "helperText": "12 or 24 hour format",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
           "ElementProps": {
             "options": [
@@ -1474,10 +1648,12 @@
         "initialValue": "24h",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1489,6 +1665,8 @@
           "label": "Temperature Unit",
           "name": "temperature-unit",
           "helperText": "Unit for temperature display",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
           "ElementProps": {
             "options": [
@@ -1507,10 +1685,12 @@
         "initialValue": "C",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1523,7 +1703,9 @@
           "name": "battery-type",
           "helperText": "Type of batteries installed",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -1545,10 +1727,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1568,10 +1752,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1583,6 +1769,8 @@
           "label": "Time Lapse",
           "name": "time-lapse",
           "helperText": "Enable time lapse capture?",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true,
           "ElementProps": {
             "options": [
@@ -1601,10 +1789,12 @@
         "initialValue": "off",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1629,10 +1819,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1656,10 +1848,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1683,23 +1877,29 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "camera-height": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Camera Height (cm)",
           "name": "camera-height",
           "helperText": "Height of camera lens above ground (cm)",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.positive"], ["yup.required"]],
         "initialValue": "",
@@ -1715,15 +1915,19 @@
         }
       },
       "camera-angle": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Camera Angle from Vertical (degrees)",
           "name": "camera-angle",
           "helperText": "Angle from vertical (0-90°, 90° = horizontal)",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 90], ["yup.required"]],
         "initialValue": "",
@@ -1739,15 +1943,19 @@
         }
       },
       "camera-direction": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Camera Direction (degrees)",
           "name": "camera-direction",
           "helperText": "Compass bearing camera is facing (0-360°)",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 360], ["yup.required"]],
         "initialValue": "",
@@ -1763,15 +1971,19 @@
         }
       },
       "detection-angle": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Detection Angle (degrees)",
           "name": "detection-angle",
           "helperText": "Angle relative to predicted path of target taxa/species",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 360], ["yup.required"]],
         "initialValue": "",
@@ -1787,15 +1999,19 @@
         }
       },
       "slope": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Slope (degrees)",
           "name": "slope",
           "helperText": "Ground slope at camera location (0-90°)",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 90], ["yup.required"]],
         "initialValue": "0",
@@ -1811,15 +2027,19 @@
         }
       },
       "aspect": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Aspect (degrees)",
           "name": "aspect",
           "helperText": "Downslope direction (0-360°)",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.min", 0], ["yup.max", 360], ["yup.required"]],
         "initialValue": "0",
@@ -1839,9 +2059,11 @@
         "component-name": "TakePhoto",
         "type-returned": "faims-attachment::Files",
         "component-parameters": {
-          "name": "camera-trap-photo",
           "label": "Camera Trap Photo",
+          "name": "camera-trap-photo",
           "helperText": "Photo of deployed camera setup",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true
         },
         "validationSchema": [
@@ -1852,10 +2074,12 @@
         "initialValue": null,
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1878,7 +2102,8 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1893,7 +2118,9 @@
           "fullWidth": true,
           "variant": "outlined",
           "multiline": true,
-          "rows": 3
+          "InputProps": {
+            "rows": 3
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
@@ -1903,29 +2130,36 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "deployment-survey-end-datetime": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Survey End Date & Time",
           "name": "deployment-survey-end-datetime",
-          "helperText": "End date/time of the deployment survey (auto-recorded)",
+          "helperText": "End date/time of the deployment survey",
           "fullWidth": true,
-          "required": false
+          "variant": "outlined",
+          "required": false,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1938,6 +2172,7 @@
           "name": "reequip-id",
           "helperText": "Auto-generated re-equip identifier",
           "fullWidth": true,
+          "variant": "outlined",
           "num_digits": 4,
           "form_id": "CameraTrapReequip"
         },
@@ -1945,10 +2180,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -1961,6 +2198,7 @@
           "name": "deployment-reference",
           "helperText": "Select the deployment being re-equipped",
           "fullWidth": true,
+          "variant": "outlined",
           "related_type": "CameraTrapDeployment",
           "relation_type": "is-related-to",
           "multiple": false,
@@ -1970,54 +2208,68 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "reequip-survey-start-datetime": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Re-equip Survey Start Date & Time",
           "name": "reequip-survey-start-datetime",
-          "helperText": "Start date/time of the re-equipping survey (auto-recorded)",
+          "helperText": "Start date/time of the re-equipping survey",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "reequip-date": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Re-equipping Date",
           "name": "reequip-date",
           "helperText": "Record the re-equipping date",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2030,7 +2282,9 @@
           "name": "camera-operational-status",
           "helperText": "Camera status upon checking",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -2076,19 +2330,24 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "number-of-images": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Number of Images",
           "name": "number-of-images",
           "helperText": "Number of images captured (optional)",
-          "fullWidth": true
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.min", 0]],
         "initialValue": "",
@@ -2119,10 +2378,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2133,9 +2394,10 @@
         "component-parameters": {
           "label": "Camera Needs Replacing",
           "name": "check-camera-needs-replacing",
-          "helperText": "Check if camera needs to be replaced"
+          "helperText": "Check if camera needs to be replaced",
+          "fullWidth": true
         },
-        "validationSchema": [["yup.bool"]],
+        "validationSchema": [["yup.boolean"]],
         "initialValue": false,
         "condition": {
           "operator": "or",
@@ -2164,10 +2426,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2192,10 +2456,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2208,7 +2474,9 @@
           "name": "replacement-battery-type",
           "helperText": "Type of replacement batteries",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -2260,10 +2528,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2313,10 +2583,12 @@
         },
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2325,9 +2597,11 @@
         "component-name": "TakePhoto",
         "type-returned": "faims-attachment::Files",
         "component-parameters": {
-          "name": "reequip-camera-photo",
           "label": "Camera Trap Photo",
+          "name": "reequip-camera-photo",
           "helperText": "Photo of re-equipped camera setup",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true
         },
         "validationSchema": [
@@ -2338,10 +2612,12 @@
         "initialValue": null,
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2356,7 +2632,9 @@
           "fullWidth": true,
           "variant": "outlined",
           "multiline": true,
-          "rows": 3
+          "InputProps": {
+            "rows": 3
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
@@ -2366,29 +2644,36 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "reequip-survey-end-datetime": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Re-equip Survey End Date & Time",
           "name": "reequip-survey-end-datetime",
-          "helperText": "End date/time of the re-equipping survey (auto-recorded)",
+          "helperText": "End date/time of the re-equipping survey",
           "fullWidth": true,
-          "required": false
+          "variant": "outlined",
+          "required": false,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2401,6 +2686,7 @@
           "name": "retrieval-id",
           "helperText": "Auto-generated retrieval identifier",
           "fullWidth": true,
+          "variant": "outlined",
           "num_digits": 4,
           "form_id": "CameraTrapRetrieval"
         },
@@ -2408,10 +2694,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2424,6 +2712,7 @@
           "name": "retrieval-deployment-reference",
           "helperText": "Select the deployment being retrieved",
           "fullWidth": true,
+          "variant": "outlined",
           "related_type": "CameraTrapDeployment",
           "relation_type": "is-related-to",
           "multiple": false,
@@ -2433,54 +2722,68 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "retrieval-survey-start-datetime": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Retrieval Survey Start Date & Time",
           "name": "retrieval-survey-start-datetime",
-          "helperText": "Start date/time of the retrieval survey (auto-recorded)",
+          "helperText": "Start date/time of the retrieval survey",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "retrieval-date": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Retrieval Date",
           "name": "retrieval-date",
           "helperText": "Record the retrieval date (calculates deployment period)",
           "fullWidth": true,
-          "required": true
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2493,7 +2796,9 @@
           "name": "final-operational-status",
           "helperText": "Final status of the camera at retrieval",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -2539,28 +2844,35 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "final-number-of-images": {
-        "component-namespace": "faims-custom",
-        "component-name": "NumberField",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
         "type-returned": "faims-core::Number",
         "component-parameters": {
           "label": "Number of Images",
           "name": "final-number-of-images",
           "helperText": "Final number of images captured (optional)",
-          "fullWidth": true
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
         },
         "validationSchema": [["yup.number"], ["yup.min", 0]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -2575,7 +2887,9 @@
           "fullWidth": true,
           "variant": "outlined",
           "multiline": true,
-          "rows": 3
+          "InputProps": {
+            "rows": 3
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
@@ -2585,29 +2899,36 @@
             "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
       "retrieval-survey-end-datetime": {
-        "component-namespace": "faims-custom",
-        "component-name": "DateTimeNow",
-        "type-returned": "faims-core::Datetime",
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
           "label": "Retrieval Survey End Date & Time",
           "name": "retrieval-survey-end-datetime",
-          "helperText": "End date/time of the retrieval survey (auto-recorded)",
+          "helperText": "End date/time of the retrieval survey",
           "fullWidth": true,
-          "required": false
+          "variant": "outlined",
+          "required": false,
+          "InputProps": {
+            "type": "datetime-local"
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       }
@@ -2796,7 +3117,10 @@
           "Deployment-TimeLapse",
           "Deployment-Positioning",
           "Deployment-Documentation"
-        ]
+        ],
+        "hridField": "deployment-id",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
       },
       "CameraTrapReequip": {
         "label": "Camera Trap Re-equipping",
@@ -2805,7 +3129,10 @@
           "Reequip-Status",
           "Reequip-Replacement",
           "Reequip-Documentation"
-        ]
+        ],
+        "hridField": "reequip-id",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
       },
       "CameraTrapRetrieval": {
         "label": "Camera Trap Retrieval",
@@ -2813,7 +3140,10 @@
           "Retrieval-Basic",
           "Retrieval-Status",
           "Retrieval-Documentation"
-        ]
+        ],
+        "hridField": "retrieval-id",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
       }
     },
     "visible_types": ["CameraTrapDeployment", "CameraTrapReequip", "CameraTrapRetrieval"]

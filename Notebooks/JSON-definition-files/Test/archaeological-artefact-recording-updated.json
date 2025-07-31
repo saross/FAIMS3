@@ -10,8 +10,7 @@
     "ispublic": false,
     "isrequest": false,
     "showQRCodeButton": true,
-    "accesses": ["admin", "moderator", "team"],
-    "filenames": []
+    "accesses": ["admin", "moderator", "team"]
   },
   "ui-specification": {
     "fields": {
@@ -24,17 +23,20 @@
           "name": "Artefact_ID",
           "helperText": "Auto-generated artefact identifier",
           "fullWidth": true,
+          "variant": "outlined",
           "num_digits": 4,
           "form_id": "Artefact"
         },
-        "validationSchema": [["yup.string"]],
+        "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -43,9 +45,11 @@
         "component-name": "QRCodeFormField",
         "type-returned": "faims-core::String",
         "component-parameters": {
-          "name": "Bag_ID",
           "label": "Bag ID",
+          "name": "Bag_ID",
           "helperText": "Scan QR code on the artefact bag",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
@@ -64,18 +68,19 @@
       "Context_Number": {
         "component-namespace": "formik-material-ui",
         "component-name": "TextField",
-        "type-returned": "faims-core::String",
+        "type-returned": "faims-core::Integer",
         "component-parameters": {
           "label": "Context Number",
           "name": "Context_Number",
           "helperText": "Enter the context number",
           "fullWidth": true,
           "variant": "outlined",
+          "required": false,
           "InputProps": {
             "type": "number"
           }
         },
-        "validationSchema": [["yup.string"]],
+        "validationSchema": [["yup.number"]],
         "initialValue": "",
         "meta": {
           "annotation": {
@@ -97,17 +102,23 @@
           "name": "HRID",
           "helperText": "Auto-generated from Artefact ID and Bag ID",
           "fullWidth": true,
+          "variant": "outlined",
           "template": "{{Artefact_ID}}-{{Bag_ID}}",
-          "hrid": true
+          "InputProps": {
+            "type": "text",
+            "readOnly": true
+          }
         },
-        "validationSchema": [["yup.string"]],
+        "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -120,7 +131,9 @@
           "name": "Class",
           "helperText": "Select the artefact class",
           "fullWidth": true,
+          "variant": "outlined",
           "required": true,
+          "select": true,
           "ElementProps": {
             "options": [
               {
@@ -170,7 +183,7 @@
       "Quantity": {
         "component-namespace": "formik-material-ui",
         "component-name": "TextField",
-        "type-returned": "faims-core::String",
+        "type-returned": "faims-core::Integer",
         "component-parameters": {
           "label": "Quantity",
           "name": "Quantity",
@@ -182,8 +195,8 @@
             "type": "number"
           }
         },
-        "validationSchema": [["yup.string"], ["yup.required"]],
-        "initialValue": "",
+        "validationSchema": [["yup.number"], ["yup.required"], ["yup.min", 1]],
+        "initialValue": "1",
         "meta": {
           "annotation": {
             "include": true,
@@ -200,9 +213,12 @@
         "component-name": "TakePhoto",
         "type-returned": "faims-attachment::Files",
         "component-parameters": {
-          "name": "Photograph",
           "label": "Photograph",
-          "helperText": "Take a photo of the artefact(s)"
+          "name": "Photograph",
+          "helperText": "Take a photo of the artefact(s)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": false
         },
         "validationSchema": [
           ["yup.array"],
@@ -232,7 +248,10 @@
           "fullWidth": true,
           "variant": "outlined",
           "multiline": true,
-          "rows": 3
+          "required": false,
+          "InputProps": {
+            "rows": 3
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
@@ -256,6 +275,7 @@
           "name": "HRID_Additional",
           "helperText": "Select the artefact this photo belongs to",
           "fullWidth": true,
+          "variant": "outlined",
           "related_type": "Artefact",
           "relation_type": "is-related-to",
           "multiple": false,
@@ -265,10 +285,12 @@
         "initialValue": "",
         "meta": {
           "annotation": {
-            "include": false
+            "include": false,
+            "label": "annotation"
           },
           "uncertainty": {
-            "include": false
+            "include": false,
+            "label": "uncertainty"
           }
         }
       },
@@ -277,9 +299,11 @@
         "component-name": "TakePhoto",
         "type-returned": "faims-attachment::Files",
         "component-parameters": {
-          "name": "Additional_Photo",
           "label": "Additional Photo",
+          "name": "Additional_Photo",
           "helperText": "Take additional photo of the artefact",
+          "fullWidth": true,
+          "variant": "outlined",
           "required": true
         },
         "validationSchema": [
@@ -310,7 +334,10 @@
           "fullWidth": true,
           "variant": "outlined",
           "multiline": true,
-          "rows": 3
+          "required": false,
+          "InputProps": {
+            "rows": 3
+          }
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
@@ -357,11 +384,14 @@
     "viewsets": {
       "Artefact": {
         "label": "Artefact",
-        "views": ["Artefact-BasicInfo", "Artefact-CountDetails"]
+        "views": ["Artefact-BasicInfo", "Artefact-CountDetails"],
+        "hridField": "HRID",
+        "publishButtonBehaviour": "always"
       },
       "Additional_Photo": {
         "label": "Additional Photo",
-        "views": ["AdditionalPhoto-Main"]
+        "views": ["AdditionalPhoto-Main"],
+        "publishButtonBehaviour": "always"
       }
     },
     "visible_types": ["Artefact", "Additional_Photo"]

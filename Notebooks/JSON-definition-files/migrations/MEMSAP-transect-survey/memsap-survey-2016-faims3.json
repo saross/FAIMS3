@@ -1,0 +1,2465 @@
+{
+  "metadata": {
+    "name": "MEMSAP Archaeological Survey 2016",
+    "notebook_version": "1.0",
+    "schema_version": "1.0",
+    "project_lead": "Jessica Thompson",
+    "lead_institution": "Emory University",
+    "contributors": ["Adela Sobotkova", "Petra Janouchova"],
+    "pre_description": "Digital recording system for the Malawi Earlier-Middle Stone Age Project (MEMSAP) archaeological field survey. This notebook supports transect-based survey documentation with detailed lithic artifact analysis.",
+    "project_status": "Active",
+    "ispublic": false,
+    "isrequest": false,
+    "project": {
+      "name": "MEMSAP",
+      "description": "The Malawi Earlier-Middle Stone Age Project is a cross-disciplinary project aimed at understanding changes in human technology, subsistence, and demography across the Middle Stone Age (ca. 280-30 thousand years ago)."
+    },
+    "accesses": ["admin", "moderator", "team"],
+    "showQRCodeButton": false
+  },
+  "ui-specification": {
+    "fields": {
+      "team": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Team",
+          "name": "team",
+          "helperText": "Select your survey team",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "A", "label": "Team A"},
+              {"value": "B", "label": "Team B"},
+              {"value": "C", "label": "Team C"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "survey-unit-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Survey Unit ID",
+          "name": "survey-unit-id",
+          "helperText": "Auto-generated unique identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "num_digits": 5,
+          "form_id": "Survey_Unit"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "survey-line": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Survey Line",
+          "name": "survey-line",
+          "helperText": "Enter the survey line number or identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "recorded-by": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Recorded by",
+          "name": "recorded-by",
+          "helperText": "Name of the recorder",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "timestamp": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Timestamp",
+          "name": "timestamp",
+          "helperText": "Date and time of recording",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "start-gps": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "Start GPS Location",
+          "name": "start-gps",
+          "helperText": "Capture GPS location at transect start",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
+        "initialValue": null,
+        "meta": {
+          "annotation": {"include": true, "label": "GPS notes"},
+          "uncertainty": {"include": true, "label": "GPS accuracy"}
+        }
+      },
+      "end-gps": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "End GPS Location",
+          "name": "end-gps",
+          "helperText": "Capture GPS location at transect end",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
+        "initialValue": null,
+        "meta": {
+          "annotation": {"include": true, "label": "GPS notes"},
+          "uncertainty": {"include": true, "label": "GPS accuracy"}
+        }
+      },
+      "total-transect-width": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Total Transect Width (m)",
+          "name": "total-transect-width",
+          "helperText": "Total width of the transect in meters",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.required"], ["yup.positive"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "number-of-walkers": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Number of Walkers",
+          "name": "number-of-walkers",
+          "helperText": "Number of people walking the transect",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.required"], ["yup.min", 1]],
+        "initialValue": "1",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "participants": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Participants",
+          "name": "participants",
+          "helperText": "List all participants in the transect survey",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "InputProps": {
+            "rows": 2
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "photo-file-numbers": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Photo File Numbers",
+          "name": "photo-file-numbers",
+          "helperText": "List camera ID and photo numbers taken of this transect",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "landform": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Landform",
+          "name": "landform",
+          "helperText": "Select the type of landform",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Range_top", "label": "Range top"},
+              {"value": "Upper_slope", "label": "Upper slope"},
+              {"value": "Middle_slope", "label": "Middle slope"},
+              {"value": "Lower_slope", "label": "Lower slope"},
+              {"value": "Flat_land", "label": "Flat land"},
+              {"value": "Hill", "label": "Hill"},
+              {"value": "River_flat", "label": "River flat"},
+              {"value": "Creek_flat", "label": "Creek flat"},
+              {"value": "Long_gradual_slope", "label": "Long gradual slope"},
+              {"value": "Short_steep_slope", "label": "Short steep slope"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "landform notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "landform-remarks": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Remarks on Landform",
+          "name": "landform-remarks",
+          "helperText": "Comments such as: degrees of slope angles, incised stream valleys, size of landform, geological characteristics",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "InputProps": {
+            "rows": 3
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "surface-visibility": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Average Surface Visibility (%)",
+          "name": "surface-visibility",
+          "helperText": "Visibility determined to nearest 10%, accounting for grass cover, leaf litter, etc.",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "10", "label": "10%"},
+              {"value": "20", "label": "20%"},
+              {"value": "30", "label": "30%"},
+              {"value": "40", "label": "40%"},
+              {"value": "50", "label": "50%"},
+              {"value": "60", "label": "60%"},
+              {"value": "70", "label": "70%"},
+              {"value": "80", "label": "80%"},
+              {"value": "90", "label": "90%"},
+              {"value": "100", "label": "100%"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "visibility notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "visibility-remarks": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Remarks on Visibility",
+          "name": "visibility-remarks",
+          "helperText": "Comments such as: open patches, field, short or tall grass, trees, buildings, water surface",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-exposure": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Average Artefact Exposure (%)",
+          "name": "artefact-exposure",
+          "helperText": "Mean percentage where erosion was sufficient to reveal objects on surface",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "10", "label": "10%"},
+              {"value": "20", "label": "20%"},
+              {"value": "30", "label": "30%"},
+              {"value": "40", "label": "40%"},
+              {"value": "50", "label": "50%"},
+              {"value": "60", "label": "60%"},
+              {"value": "70", "label": "70%"},
+              {"value": "80", "label": "80%"},
+              {"value": "90", "label": "90%"},
+              {"value": "100", "label": "100%"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "exposure notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "exposure-remarks": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Remarks on Exposure",
+          "name": "exposure-remarks",
+          "helperText": "Comments on erosion causes: agricultural activity, grazing, road disturbance, etc.",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "geomorphic-summary": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Basic Geomorphic Summary",
+          "name": "geomorphic-summary",
+          "helperText": "Select the primary geomorphic context",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Bedrock", "label": "Bedrock"},
+              {"value": "Lag_on_bedrock", "label": "Lag on bedrock"},
+              {"value": "Lag_on_sediments", "label": "Lag on sediments"},
+              {"value": "Colluvium", "label": "Colluvium"},
+              {"value": "Alluvial_fan", "label": "Alluvial fan"},
+              {"value": "Floodplain_alluvium", "label": "Floodplain alluvium"},
+              {"value": "Fluvially_incised_sediments", "label": "Fluvially incised sediments/strath terraces"},
+              {"value": "Other", "label": "Other"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "geomorphic notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "cobble-distribution": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Cobble Distribution",
+          "name": "cobble-distribution",
+          "helperText": "Select the cobble distribution pattern",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Not_present", "label": "Not present"},
+              {"value": "Evenly_scattered", "label": "Evenly scattered"},
+              {"value": "Quite_evenly", "label": "Quite evenly"},
+              {"value": "Aggregated", "label": "Aggregated"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "cobbles-per-m2": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Estimated Cobbles per m²",
+          "name": "cobbles-per-m2",
+          "helperText": "Estimate the number of cobbles per square meter",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "cobble-remarks": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Other Remarks on Cobbles",
+          "name": "cobble-remarks",
+          "helperText": "Additional comments about cobble distribution or characteristics",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "sediment-size": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "label": "Sediment Size",
+          "name": "sediment-size",
+          "helperText": "Select all sediment sizes that apply",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "SelectProps": {"multiple": true},
+          "ElementProps": {
+            "options": [
+              {"value": "Fine", "label": "Fine"},
+              {"value": "Coarse", "label": "Coarse"},
+              {"value": "Small_Clasts", "label": "Small Clasts"},
+              {"value": "Large_Clasts", "label": "Large Clasts"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "sediment-thickness": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Sediment Thickness",
+          "name": "sediment-thickness",
+          "helperText": "Select the sediment thickness category",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Less_than_10cm", "label": "Less than 10cm"},
+              {"value": "Greater_than_10cm", "label": "Greater than 10cm"},
+              {"value": "NA", "label": "N/A"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "transect-remarks": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Other Remarks on Transect",
+          "name": "transect-remarks",
+          "helperText": "Any other comments on the transect recording",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "InputProps": {
+            "rows": 3
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "transect-photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "Transect Photo",
+          "name": "transect-photo",
+          "helperText": "Take photos of the transect area",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {"include": true, "label": "photo notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "poi-cobbles": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "POI - Cobbles",
+          "name": "poi-cobbles",
+          "fullWidth": true,
+          "helperText": "Add cobble points of interest found in this transect",
+          "related_type": "POI_Cobble",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "poi-cores": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "POI - Cores",
+          "name": "poi-cores",
+          "fullWidth": true,
+          "helperText": "Add core points of interest found in this transect",
+          "related_type": "POI_Core",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-flakes": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Artefacts - Flakes",
+          "name": "artefact-flakes",
+          "fullWidth": true,
+          "helperText": "Add flake artefacts found in this transect",
+          "related_type": "Artefact_Flake",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-cores": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Artefacts - Cores",
+          "name": "artefact-cores",
+          "fullWidth": true,
+          "helperText": "Add core artefacts found in this transect",
+          "related_type": "Artefact_Core",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-shatter": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Artefacts - Shatter/Fragment",
+          "name": "artefact-shatter",
+          "fullWidth": true,
+          "helperText": "Add shatter/fragment artefacts found in this transect",
+          "related_type": "Artefact_Shatter",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-other": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Artefacts - Other",
+          "name": "artefact-other",
+          "fullWidth": true,
+          "helperText": "Add other types of artefacts found in this transect",
+          "related_type": "Artefact_Other",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "sites": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Sites",
+          "name": "sites",
+          "fullWidth": true,
+          "helperText": "Add sites discovered in this transect",
+          "related_type": "Site",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "survey-unit-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Survey Unit Reference",
+          "name": "survey-unit-hrid",
+          "template": "{{team}}-{{survey-unit-id}}-SU",
+          "helperText": "Auto-generated reference code",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {"type": "text", "readOnly": true}
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "poi-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "POI ID",
+          "name": "poi-id",
+          "helperText": "Auto-generated unique identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "num_digits": 5,
+          "form_id": "POI_Cobble"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "poi-gps": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "GPS Location",
+          "name": "poi-gps",
+          "helperText": "Capture GPS location of this POI",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
+        "initialValue": null,
+        "meta": {
+          "annotation": {"include": true, "label": "GPS notes"},
+          "uncertainty": {"include": true, "label": "GPS accuracy"}
+        }
+      },
+      "weight": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Weight (g)",
+          "name": "weight",
+          "helperText": "Weight in grams",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "weight notes"},
+          "uncertainty": {"include": true, "label": "weight accuracy"}
+        }
+      },
+      "maximum-length": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Maximum Length (mm)",
+          "name": "maximum-length",
+          "helperText": "Maximum length in millimeters",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "measurement notes"},
+          "uncertainty": {"include": true, "label": "measurement accuracy"}
+        }
+      },
+      "maximum-width": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Maximum Width (mm)",
+          "name": "maximum-width",
+          "helperText": "Maximum width in millimeters",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "measurement notes"},
+          "uncertainty": {"include": true, "label": "measurement accuracy"}
+        }
+      },
+      "maximum-thickness": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Maximum Thickness (mm)",
+          "name": "maximum-thickness",
+          "helperText": "Maximum thickness in millimeters",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "measurement notes"},
+          "uncertainty": {"include": true, "label": "measurement accuracy"}
+        }
+      },
+      "raw-material": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Raw Material",
+          "name": "raw-material",
+          "helperText": "Select the raw material type",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Quartz", "label": "Quartz"},
+              {"value": "Quartzite", "label": "Quartzite"},
+              {"value": "Chert", "label": "Chert"},
+              {"value": "Silcrete", "label": "Silcrete"},
+              {"value": "Other", "label": "Other"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "material notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "crystal-size": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Crystal Size",
+          "name": "crystal-size",
+          "helperText": "Estimated using a sand gauge",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Fine", "label": "Fine"},
+              {"value": "Medium", "label": "Medium"},
+              {"value": "Coarse", "label": "Coarse"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "abundance-of-flaws": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Abundance of Flaws (%)",
+          "name": "abundance-of-flaws",
+          "helperText": "Percentage of impurities, mottles, large coarse fragments, and natural fissures",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "10", "label": "10%"},
+              {"value": "20", "label": "20%"},
+              {"value": "30", "label": "30%"},
+              {"value": "40", "label": "40%"},
+              {"value": "50", "label": "50%"},
+              {"value": "60", "label": "60%"},
+              {"value": "70", "label": "70%"},
+              {"value": "80", "label": "80%"},
+              {"value": "90", "label": "90%"},
+              {"value": "100", "label": "100%"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "cobble-angularity": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Angularity",
+          "name": "cobble-angularity",
+          "helperText": "Select the cobble angularity",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Rounded", "label": "Rounded"},
+              {"value": "Sub_rounded", "label": "Sub-rounded"},
+              {"value": "Angular", "label": "Angular"},
+              {"value": "Sub_angular", "label": "Sub-angular"},
+              {"value": "Other", "label": "Other"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "angularity notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "poi-photo-numbers": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Photo File Numbers",
+          "name": "poi-photo-numbers",
+          "helperText": "List camera ID and photo numbers",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "poi-comments": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Other Comments",
+          "name": "poi-comments",
+          "helperText": "Any additional comments about this POI",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "InputProps": {
+            "rows": 3
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "poi-photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "Photo",
+          "name": "poi-photo",
+          "helperText": "Take photos of this POI",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {"include": true, "label": "photo notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "poi-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "POI Reference",
+          "name": "poi-hrid",
+          "template": "{{team}}-{{poi-id}}-POI",
+          "helperText": "Auto-generated reference code",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {"type": "text", "readOnly": true}
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "core-completeness": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Completeness",
+          "name": "core-completeness",
+          "helperText": "Is the core complete or broken?",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Complete", "label": "Complete"},
+              {"value": "Broken", "label": "Broken"},
+              {"value": "NA", "label": "N/A"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "core-weathering": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Core Weathering Stage",
+          "name": "core-weathering",
+          "helperText": "Select the weathering stage",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "No_edge_rounding", "label": "No edge rounding"},
+              {"value": "Edge_rounding_visible", "label": "Edge rounding visible"},
+              {"value": "Edge_rounding_visible_to_eye", "label": "Edge rounding visible to eye"},
+              {"value": "Edge_rounding_obscured", "label": "Edge rounding obscured"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "cortex-whole-core": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Outer Surface (Cortex) on Whole Core",
+          "name": "cortex-whole-core",
+          "helperText": "Percentage of cortex on whole core",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "None", "label": "None"},
+              {"value": "Less_than_25", "label": "Less than 25%"},
+              {"value": "25-50", "label": "25-50%"},
+              {"value": "50-75", "label": "50-75%"},
+              {"value": "Greater_than_75", "label": "Greater than 75%"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "cortex-upper-hemisphere": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Outer Surface on Upper Hemisphere",
+          "name": "cortex-upper-hemisphere",
+          "helperText": "Face with the lowest amount of cortex",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "None", "label": "None"},
+              {"value": "Less_than_25", "label": "Less than 25%"},
+              {"value": "25-50", "label": "25-50%"},
+              {"value": "50-75", "label": "50-75%"},
+              {"value": "Greater_than_75", "label": "Greater than 75%"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "cortex-lower-hemisphere": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Outer Surface on Lower Hemisphere",
+          "name": "cortex-lower-hemisphere",
+          "helperText": "Face with the highest amount of cortex",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "None", "label": "None"},
+              {"value": "Less_than_25", "label": "Less than 25%"},
+              {"value": "25-50", "label": "25-50%"},
+              {"value": "50-75", "label": "50-75%"},
+              {"value": "Greater_than_75", "label": "Greater than 75%"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "number-flake-scars": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Number of Flake Scars",
+          "name": "number-flake-scars",
+          "helperText": "All scars ≥ 10 mm in length and width",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "number-platforms": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Number of Platforms",
+          "name": "number-platforms",
+          "helperText": "Count of striking platforms",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "flaking-perimeter": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Flaking on Core Perimeter (%)",
+          "name": "flaking-perimeter",
+          "helperText": "Percentage of perimeter with flaking",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Not_applicable", "label": "Not applicable"},
+              {"value": "Less_than_20", "label": "Less than 20%"},
+              {"value": "20-40", "label": "20-40%"},
+              {"value": "40-60", "label": "40-60%"},
+              {"value": "60-80", "label": "60-80%"},
+              {"value": "Greater_than_80", "label": "Greater than 80%"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "core-typology": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Core Typology",
+          "name": "core-typology",
+          "helperText": "Select the core type",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Levallois", "label": "Levallois"},
+              {"value": "Disc", "label": "Disc"},
+              {"value": "Discoidal", "label": "Discoidal"},
+              {"value": "Single_platformed_Unifacial", "label": "Single platformed - Unifacial"},
+              {"value": "Single_Platformed_Bifacial", "label": "Single platformed - Bifacial"},
+              {"value": "Double_Platformed_Opposed", "label": "Double platformed - Opposed"},
+              {"value": "Double_Platformed_Right_Angles", "label": "Double platformed - at Right Angles"},
+              {"value": "Multiple_Platformed", "label": "Multiple platformed"},
+              {"value": "Shapeless", "label": "Shapeless/Miscellaneous"},
+              {"value": "Blade", "label": "Blade"},
+              {"value": "Bipolar", "label": "Bipolar"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "typology notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Artefact ID",
+          "name": "artefact-id",
+          "helperText": "Auto-generated unique identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "num_digits": 5,
+          "form_id": "Artefact_Flake"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-gps": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "GPS Location",
+          "name": "artefact-gps",
+          "helperText": "Capture GPS location of this artefact",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
+        "initialValue": null,
+        "meta": {
+          "annotation": {"include": true, "label": "GPS notes"},
+          "uncertainty": {"include": true, "label": "GPS accuracy"}
+        }
+      },
+      "maximum-dimension": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Maximum Dimension (mm)",
+          "name": "maximum-dimension",
+          "helperText": "The maximum dimension across the object",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.positive"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-weathering": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Artefact Weathering Stage",
+          "name": "artefact-weathering",
+          "helperText": "Select the weathering stage (0-3)",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "0", "label": "0"},
+              {"value": "1", "label": "1"},
+              {"value": "2", "label": "2"},
+              {"value": "3", "label": "3"},
+              {"value": "NA", "label": "N/A"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "thickness-measurement-site": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Thickness Measurement Site",
+          "name": "thickness-measurement-site",
+          "helperText": "Where was thickness measured?",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Bulb", "label": "Bulb"},
+              {"value": "Other", "label": "Other (describe)"},
+              {"value": "NA", "label": "N/A"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "measurement notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "longitudinal-portion": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Longitudinal Portion",
+          "name": "longitudinal-portion",
+          "helperText": "Which longitudinal portion is present?",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Complete", "label": "Complete"},
+              {"value": "Proximal", "label": "Proximal"},
+              {"value": "Medial", "label": "Medial"},
+              {"value": "Distal", "label": "Distal"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "transverse-portion": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Transverse Portion",
+          "name": "transverse-portion",
+          "helperText": "Which transverse portion is present?",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Complete", "label": "Complete"},
+              {"value": "Split_Left", "label": "Split Left"},
+              {"value": "Middle", "label": "Middle"},
+              {"value": "Split_Right", "label": "Split Right"},
+              {"value": "Margin", "label": "Margin"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "platform-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Platform Type",
+          "name": "platform-type",
+          "helperText": "Select the platform type",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Cortical", "label": "Cortical"},
+              {"value": "Plain", "label": "Plain"},
+              {"value": "Dihedral", "label": "Dihedral"},
+              {"value": "Polyhedral", "label": "Polyhedral"},
+              {"value": "Faceted", "label": "Faceted"},
+              {"value": "Crushed_Shattered", "label": "Crushed/Shattered"},
+              {"value": "Point", "label": "Point"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "platform-cortex": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Platform Cortex",
+          "name": "platform-cortex",
+          "helperText": "Amount of cortex on platform",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "No_Cortex", "label": "No Cortex"},
+              {"value": "Partial_Platform_Cortex", "label": "Partial Platform Cortex"},
+              {"value": "Complete_Platform_Cortex", "label": "Complete Platform Cortex"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "termination": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Termination",
+          "name": "termination",
+          "helperText": "Select the termination type",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Feather", "label": "Feather"},
+              {"value": "Overshot", "label": "Overshot"},
+              {"value": "Hinge", "label": "Hinge"},
+              {"value": "Step", "label": "Step"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "cortical-coverage": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Percentage Cortical Coverage",
+          "name": "cortical-coverage",
+          "helperText": "Percentage of dorsal and platform surfaces combined covered in cortex",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "0-24", "label": "0-24%"},
+              {"value": "25-49", "label": "25-49%"},
+              {"value": "50-74", "label": "50-74%"},
+              {"value": "75-99", "label": "75-99%"},
+              {"value": "100", "label": "100%"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "flake-typology": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Flake Typology",
+          "name": "flake-typology",
+          "helperText": "Select the flake type",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "None", "label": "None"},
+              {"value": "Levallois", "label": "Levallois"},
+              {"value": "Blade", "label": "Blade"},
+              {"value": "Point", "label": "Point"},
+              {"value": "Backed", "label": "Backed"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "typology notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "scar-orientation": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Scar Orientation",
+          "name": "scar-orientation",
+          "helperText": "Dorsal scar orientation pattern",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Indeterminate", "label": "Indeterminate"},
+              {"value": "Levallois", "label": "Levallois"},
+              {"value": "Unidirectional", "label": "Unidirectional"},
+              {"value": "Bidirectional_Opposed", "label": "Bidirectional - Opposed"},
+              {"value": "Bidirectional_Orthogonal", "label": "Bidirectional - Orthogonal"},
+              {"value": "Centripetal", "label": "Centripetal"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "number-dorsal-scars": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::Integer",
+        "component-parameters": {
+          "label": "Number of Dorsal Scars",
+          "name": "number-dorsal-scars",
+          "helperText": "Only count scars >15 mm in maximum dimension",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {
+            "type": "number"
+          }
+        },
+        "validationSchema": [["yup.number"], ["yup.min", 0]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "retouched": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Retouched",
+          "name": "retouched",
+          "helperText": "Is the flake retouched?",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Yes", "label": "Yes"},
+              {"value": "No", "label": "No"},
+              {"value": "NA", "label": "N/A"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "retouch description"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "flake-comments": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Flake Comments",
+          "name": "flake-comments",
+          "helperText": "Any additional comments about this flake",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "InputProps": {
+            "rows": 3
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "Photo",
+          "name": "artefact-photo",
+          "helperText": "Take photos of this artefact",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {"include": true, "label": "photo notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "artefact-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Artefact Reference",
+          "name": "artefact-hrid",
+          "template": "{{team}}-{{artefact-id}}-ART",
+          "helperText": "Auto-generated reference code",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {"type": "text", "readOnly": true}
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "other-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Other Type",
+          "name": "other-type",
+          "helperText": "Select the artefact type",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Manuport", "label": "Manuport"},
+              {"value": "Hammerstone", "label": "Hammerstone"},
+              {"value": "Grindstone", "label": "Grindstone"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "type notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "site-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site ID",
+          "name": "site-id",
+          "helperText": "Auto-generated unique identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "num_digits": 5,
+          "form_id": "Site"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "site-name": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site Name",
+          "name": "site-name",
+          "helperText": "Enter a name for this site",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "site-user": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Recorded by",
+          "name": "site-user",
+          "helperText": "Name of the recorder",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "site-timestamp": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Timestamp",
+          "name": "site-timestamp",
+          "helperText": "Date and time of recording",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "datetime-local"
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "site-gps": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "GPS Location",
+          "name": "site-gps",
+          "helperText": "Capture GPS location of this site",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
+        "initialValue": null,
+        "meta": {
+          "annotation": {"include": true, "label": "GPS notes"},
+          "uncertainty": {"include": true, "label": "GPS accuracy"}
+        }
+      },
+      "site-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site Type",
+          "name": "site-type",
+          "helperText": "Select the site type",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Rock_shelter", "label": "Rock shelter"},
+              {"value": "Erosion_Gully", "label": "Erosion Gully"},
+              {"value": "Open_Field", "label": "Open Field"},
+              {"value": "Standing_Structure", "label": "Standing Structure"},
+              {"value": "Artefact", "label": "Artefact"},
+              {"value": "Scatter", "label": "Scatter"},
+              {"value": "Other", "label": "Other"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "type notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "estimated-age": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "label": "Estimated Age",
+          "name": "estimated-age",
+          "helperText": "Select all that apply",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "SelectProps": {"multiple": true},
+          "ElementProps": {
+            "options": [
+              {"value": "ESA", "label": "ESA"},
+              {"value": "MSA", "label": "MSA"},
+              {"value": "LSA", "label": "LSA"},
+              {"value": "Iron_Age", "label": "Iron Age"},
+              {"value": "Historical", "label": "Historical"},
+              {"value": "Paleoenvironmental", "label": "Paleoenvironmental"},
+              {"value": "Unknown_Stone_Age", "label": "Unknown Stone Age"},
+              {"value": "Other", "label": "Other"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": true, "label": "age notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "materials-present": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "label": "Materials Present",
+          "name": "materials-present",
+          "helperText": "Select all materials present at the site",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "SelectProps": {"multiple": true},
+          "ElementProps": {
+            "options": [
+              {"value": "Chipped_Stone", "label": "Chipped Stone"},
+              {"value": "Ground_Stone", "label": "Ground Stone"},
+              {"value": "Ochre", "label": "Ochre"},
+              {"value": "Slag", "label": "Slag"},
+              {"value": "Pottery", "label": "Pottery"},
+              {"value": "Furnace", "label": "Furnace"},
+              {"value": "Shell", "label": "Shell"},
+              {"value": "Macrofauna", "label": "Macrofauna"},
+              {"value": "Microfauna", "label": "Microfauna"},
+              {"value": "Charcoal", "label": "Charcoal"},
+              {"value": "Glass", "label": "Glass"},
+              {"value": "Other", "label": "Other"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": true, "label": "materials notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "site-condition": {
+        "component-namespace": "faims-custom",
+        "component-name": "MultiSelect",
+        "type-returned": "faims-core::Array",
+        "component-parameters": {
+          "label": "Site Condition",
+          "name": "site-condition",
+          "helperText": "Select all that apply",
+          "fullWidth": true,
+          "variant": "outlined",
+          "select": true,
+          "SelectProps": {"multiple": true},
+          "ElementProps": {
+            "options": [
+              {"value": "Intact", "label": "Intact"},
+              {"value": "Slightly_Eroded", "label": "Slightly Eroded"},
+              {"value": "Very_Eroded", "label": "Very Eroded"},
+              {"value": "Modern_threat", "label": "Modern threat"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {"include": true, "label": "condition notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "recommend-investigation": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Recommend for Further Investigation",
+          "name": "recommend-investigation",
+          "helperText": "Should this site be investigated further?",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "Yes", "label": "Yes"},
+              {"value": "No", "label": "No"},
+              {"value": "NA", "label": "N/A"}
+            ]
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": true, "label": "recommendation notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "site-notes": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Notes",
+          "name": "site-notes",
+          "helperText": "Any additional notes about this site",
+          "fullWidth": true,
+          "variant": "outlined",
+          "multiline": true,
+          "InputProps": {
+            "rows": 4
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "site-photo": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePhoto",
+        "type-returned": "faims-attachment::Files",
+        "component-parameters": {
+          "label": "Photo",
+          "name": "site-photo",
+          "helperText": "Take photos of this site",
+          "fullWidth": true,
+          "variant": "outlined"
+        },
+        "validationSchema": [
+          ["yup.array"],
+          ["yup.of", [["yup.object"], ["yup.nullable"]]],
+          ["yup.nullable"]
+        ],
+        "initialValue": null,
+        "meta": {
+          "annotation": {"include": true, "label": "photo notes"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      },
+      "site-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site Reference",
+          "name": "site-hrid",
+          "template": "{{team}}-{{site-name}}",
+          "helperText": "Auto-generated reference code",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {"type": "text", "readOnly": true}
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {"include": false, "label": "annotation"},
+          "uncertainty": {"include": false, "label": "uncertainty"}
+        }
+      }
+    },
+    "fviews": {
+      "Survey-Unit-Basic": {
+        "label": "Basic Information",
+        "fields": [
+          "survey-unit-id",
+          "survey-unit-hrid",
+          "team",
+          "survey-line",
+          "recorded-by",
+          "timestamp"
+        ]
+      },
+      "Survey-Unit-Transect": {
+        "label": "Transect Details",
+        "fields": [
+          "start-gps",
+          "total-transect-width",
+          "number-of-walkers",
+          "participants",
+          "photo-file-numbers"
+        ]
+      },
+      "Survey-Unit-Landform": {
+        "label": "Landform & Visibility",
+        "fields": [
+          "landform",
+          "landform-remarks",
+          "surface-visibility",
+          "visibility-remarks",
+          "artefact-exposure",
+          "exposure-remarks"
+        ]
+      },
+      "Survey-Unit-Geomorphology": {
+        "label": "Geomorphology",
+        "fields": [
+          "geomorphic-summary",
+          "cobble-distribution",
+          "cobbles-per-m2",
+          "cobble-remarks",
+          "sediment-size",
+          "sediment-thickness"
+        ]
+      },
+      "Survey-Unit-End": {
+        "label": "Complete Transect",
+        "fields": [
+          "end-gps",
+          "transect-remarks",
+          "transect-photo"
+        ]
+      },
+      "Survey-Unit-Relationships": {
+        "label": "Related Records",
+        "fields": [
+          "poi-cobbles",
+          "poi-cores",
+          "artefact-flakes",
+          "artefact-cores",
+          "artefact-shatter",
+          "artefact-other",
+          "sites"
+        ]
+      },
+      "POI-Basic": {
+        "label": "Basic Information",
+        "fields": [
+          "poi-id",
+          "poi-hrid",
+          "team",
+          "recorded-by",
+          "timestamp",
+          "poi-gps"
+        ]
+      },
+      "POI-Measurements": {
+        "label": "Measurements",
+        "fields": [
+          "weight",
+          "maximum-length",
+          "maximum-width",
+          "maximum-thickness"
+        ]
+      },
+      "POI-Material": {
+        "label": "Material Properties",
+        "fields": [
+          "raw-material",
+          "crystal-size",
+          "abundance-of-flaws"
+        ]
+      },
+      "POI-Cobble": {
+        "label": "Cobble Properties",
+        "fields": [
+          "cobble-angularity"
+        ]
+      },
+      "POI-Documentation": {
+        "label": "Documentation",
+        "fields": [
+          "poi-photo-numbers",
+          "poi-comments",
+          "poi-photo"
+        ]
+      },
+      "Core-Analysis": {
+        "label": "Core Analysis",
+        "fields": [
+          "core-completeness",
+          "core-weathering",
+          "cortex-whole-core",
+          "cortex-upper-hemisphere",
+          "cortex-lower-hemisphere"
+        ]
+      },
+      "Core-Flaking": {
+        "label": "Flaking Details",
+        "fields": [
+          "number-flake-scars",
+          "number-platforms",
+          "flaking-perimeter",
+          "core-typology"
+        ]
+      },
+      "Artefact-Basic": {
+        "label": "Basic Information",
+        "fields": [
+          "artefact-id",
+          "artefact-hrid",
+          "team",
+          "recorded-by",
+          "timestamp",
+          "artefact-gps"
+        ]
+      },
+      "Artefact-Measurements": {
+        "label": "Measurements",
+        "fields": [
+          "weight",
+          "maximum-length",
+          "maximum-width",
+          "maximum-thickness",
+          "thickness-measurement-site",
+          "maximum-dimension"
+        ]
+      },
+      "Artefact-Material": {
+        "label": "Material Properties",
+        "fields": [
+          "raw-material",
+          "artefact-weathering"
+        ]
+      },
+      "Flake-Analysis": {
+        "label": "Flake Analysis",
+        "fields": [
+          "longitudinal-portion",
+          "transverse-portion",
+          "platform-type",
+          "platform-cortex",
+          "termination",
+          "cortical-coverage"
+        ]
+      },
+      "Flake-Technology": {
+        "label": "Technology",
+        "fields": [
+          "flake-typology",
+          "scar-orientation",
+          "number-dorsal-scars",
+          "retouched",
+          "flake-comments",
+          "artefact-photo"
+        ]
+      },
+      "Shatter-Analysis": {
+        "label": "Shatter Analysis",
+        "fields": [
+          "cortical-coverage",
+          "artefact-photo"
+        ]
+      },
+      "Other-Artefact": {
+        "label": "Other Artefact",
+        "fields": [
+          "other-type",
+          "artefact-photo"
+        ]
+      },
+      "Site-Basic": {
+        "label": "Basic Information",
+        "fields": [
+          "site-id",
+          "site-hrid",
+          "site-name",
+          "team",
+          "site-user",
+          "site-timestamp",
+          "site-gps"
+        ]
+      },
+      "Site-Details": {
+        "label": "Site Details",
+        "fields": [
+          "site-type",
+          "estimated-age",
+          "materials-present",
+          "site-condition",
+          "recommend-investigation"
+        ]
+      },
+      "Site-Documentation": {
+        "label": "Documentation",
+        "fields": [
+          "site-notes",
+          "site-photo"
+        ]
+      }
+    },
+    "viewsets": {
+      "Survey_Unit": {
+        "label": "Survey Unit (Transect)",
+        "views": [
+          "Survey-Unit-Basic",
+          "Survey-Unit-Transect",
+          "Survey-Unit-Landform",
+          "Survey-Unit-Geomorphology",
+          "Survey-Unit-Relationships",
+          "Survey-Unit-End"
+        ],
+        "hridField": "survey-unit-hrid",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
+      },
+      "POI_Cobble": {
+        "label": "POI - Cobble",
+        "views": [
+          "POI-Basic",
+          "POI-Measurements",
+          "POI-Material",
+          "POI-Cobble",
+          "POI-Documentation"
+        ],
+        "hridField": "poi-hrid",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
+      },
+      "POI_Core": {
+        "label": "POI - Core",
+        "views": [
+          "POI-Basic",
+          "POI-Measurements",
+          "POI-Material",
+          "Core-Analysis",
+          "Core-Flaking",
+          "POI-Documentation"
+        ],
+        "hridField": "poi-hrid",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
+      },
+      "Artefact_Flake": {
+        "label": "Artefact - Flake",
+        "views": [
+          "Artefact-Basic",
+          "Artefact-Measurements",
+          "Artefact-Material",
+          "Flake-Analysis",
+          "Flake-Technology"
+        ],
+        "hridField": "artefact-hrid",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
+      },
+      "Artefact_Core": {
+        "label": "Artefact - Core",
+        "views": [
+          "Artefact-Basic",
+          "Artefact-Measurements",
+          "Artefact-Material",
+          "Core-Analysis",
+          "Core-Flaking",
+          "POI-Documentation"
+        ],
+        "hridField": "artefact-hrid",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
+      },
+      "Artefact_Shatter": {
+        "label": "Artefact - Shatter/Fragment",
+        "views": [
+          "Artefact-Basic",
+          "Artefact-Measurements",
+          "Artefact-Material",
+          "Shatter-Analysis"
+        ],
+        "hridField": "artefact-hrid",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
+      },
+      "Artefact_Other": {
+        "label": "Artefact - Other",
+        "views": [
+          "Artefact-Basic",
+          "Artefact-Measurements",
+          "Artefact-Material",
+          "Other-Artefact"
+        ],
+        "hridField": "artefact-hrid",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
+      },
+      "Site": {
+        "label": "Site",
+        "views": [
+          "Site-Basic",
+          "Site-Details",
+          "Site-Documentation"
+        ],
+        "hridField": "site-hrid",
+        "publishButtonBehaviour": "visited",
+        "layout": "tabs"
+      }
+    },
+    "visible_types": [
+      "Survey_Unit",
+      "POI_Cobble",
+      "POI_Core",
+      "Artefact_Flake",
+      "Artefact_Core",
+      "Artefact_Shatter",
+      "Artefact_Other",
+      "Site"
+    ]
+  }
+}
