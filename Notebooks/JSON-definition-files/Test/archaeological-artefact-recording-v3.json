@@ -1,7 +1,7 @@
 {
   "metadata": {
     "name": "Archaeological Historical Artefact Recording",
-    "notebook_version": "1.0",
+    "notebook_version": "3.0",
     "schema_version": "1.0",
     "project_lead": "",
     "lead_institution": "",
@@ -266,20 +266,75 @@
           }
         }
       },
-      "HRID_Additional": {
+      "additional-photos": {
         "component-namespace": "faims-custom",
         "component-name": "RelatedRecordSelector",
         "type-returned": "faims-core::Relationship",
         "component-parameters": {
-          "label": "Related Artefact",
-          "name": "HRID_Additional",
-          "helperText": "Select the artefact this photo belongs to",
+          "label": "Additional Photos",
+          "name": "additional-photos",
+          "helperText": "Add additional photos for this artefact",
           "fullWidth": true,
           "variant": "outlined",
-          "related_type": "Artefact",
-          "relation_type": "is-related-to",
-          "multiple": false,
-          "required": true
+          "related_type": "Additional_Photo",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "photo-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Photo ID",
+          "name": "photo-id",
+          "helperText": "Auto-generated photo identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "num_digits": 3,
+          "form_id": "Additional_Photo"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "photo-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Photo Record ID",
+          "name": "photo-hrid",
+          "helperText": "Auto-generated photo identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "template": "PHOTO-{{photo-id}}",
+          "InputProps": {
+            "type": "text",
+            "readOnly": true
+          }
         },
         "validationSchema": [["yup.string"], ["yup.required"]],
         "initialValue": "",
@@ -372,10 +427,17 @@
           "Note"
         ]
       },
+      "Artefact-RelatedRecords": {
+        "label": "Related Records",
+        "fields": [
+          "additional-photos"
+        ]
+      },
       "AdditionalPhoto-Main": {
         "label": "Additional Photo",
         "fields": [
-          "HRID_Additional",
+          "photo-id",
+          "photo-hrid",
           "Additional_Photo",
           "Note_Additional"
         ]
@@ -384,16 +446,18 @@
     "viewsets": {
       "Artefact": {
         "label": "Artefact",
-        "views": ["Artefact-BasicInfo", "Artefact-CountDetails"],
+        "views": ["Artefact-BasicInfo", "Artefact-CountDetails", "Artefact-RelatedRecords"],
         "hridField": "HRID",
-        "publishButtonBehaviour": "always"
+        "publishButtonBehaviour": "always",
+        "layout": "tabs"
       },
       "Additional_Photo": {
         "label": "Additional Photo",
         "views": ["AdditionalPhoto-Main"],
+        "hridField": "photo-hrid",
         "publishButtonBehaviour": "always"
       }
     },
-    "visible_types": ["Artefact", "Additional_Photo"]
+    "visible_types": ["Artefact"]
   }
 }

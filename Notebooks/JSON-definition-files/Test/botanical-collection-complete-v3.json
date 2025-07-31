@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "notebook_version": "1.0",
+    "notebook_version": "3.0",
     "schema_version": "1.0",
     "name": "Botanical Collection - Complete",
     "accesses": ["admin", "moderator", "team"],
@@ -9,11 +9,238 @@
     "lead_institution": "Botanical Research Institute",
     "project_lead": "Dr. Flora Expert",
     "project_status": "Active",
-    "pre_description": "A comprehensive botanical collection notebook for field surveys and herbarium specimens",
+    "pre_description": "A comprehensive botanical collection notebook for field surveys and herbarium specimens with site-specimen relationships",
     "showQRCodeButton": true
   },
   "ui-specification": {
     "fields": {
+      "site-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site ID",
+          "name": "site-id",
+          "variant": "outlined",
+          "required": true,
+          "num_digits": 4,
+          "form_id": "survey-site"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "site-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site Reference",
+          "fullWidth": true,
+          "name": "site-hrid",
+          "helperText": "Auto-generated site reference",
+          "required": true,
+          "template": "SITE-{{survey-date}}-{{site-id}}",
+          "InputProps": {
+            "type": "text",
+            "readOnly": true
+          }
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "survey-date": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Survey Date",
+          "fullWidth": true,
+          "helperText": "Date of botanical survey",
+          "variant": "outlined",
+          "required": true,
+          "InputProps": {
+            "type": "date"
+          },
+          "name": "survey-date"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "site-name": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "TextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site Name",
+          "fullWidth": true,
+          "helperText": "Descriptive name for the survey site",
+          "variant": "outlined",
+          "required": true,
+          "name": "site-name"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "site-location-gps": {
+        "component-namespace": "faims-custom",
+        "component-name": "TakePoint",
+        "type-returned": "faims-pos::Location",
+        "component-parameters": {
+          "label": "Site GPS Location",
+          "fullWidth": true,
+          "name": "site-location-gps",
+          "helperText": "Central coordinates of survey site",
+          "variant": "outlined"
+        },
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
+        "initialValue": null,
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "location notes"
+          },
+          "uncertainty": {
+            "include": true,
+            "label": "GPS accuracy"
+          }
+        }
+      },
+      "site-habitat-type": {
+        "component-namespace": "faims-custom",
+        "component-name": "Select",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site Habitat Type",
+          "fullWidth": true,
+          "helperText": "Primary habitat type of the survey site",
+          "variant": "outlined",
+          "required": true,
+          "select": true,
+          "ElementProps": {
+            "options": [
+              {"value": "forest", "label": "Forest"},
+              {"value": "grassland", "label": "Grassland"},
+              {"value": "wetland", "label": "Wetland"},
+              {"value": "coastal", "label": "Coastal"},
+              {"value": "alpine", "label": "Alpine"},
+              {"value": "desert", "label": "Desert"},
+              {"value": "urban", "label": "Urban"},
+              {"value": "agricultural", "label": "Agricultural"},
+              {"value": "other", "label": "Other"}
+            ]
+          },
+          "name": "site-habitat-type"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": true,
+            "label": "habitat notes"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "site-description": {
+        "component-namespace": "formik-material-ui",
+        "component-name": "MultipleTextField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Site Description",
+          "fullWidth": true,
+          "helperText": "General description of the survey site",
+          "variant": "outlined",
+          "required": false,
+          "multiline": true,
+          "InputProps": {
+            "rows": 4
+          },
+          "name": "site-description"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "site-specimens": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Botanical Specimens",
+          "name": "site-specimens",
+          "helperText": "Add specimens collected at this site",
+          "fullWidth": true,
+          "variant": "outlined",
+          "related_type": "specimen",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
       "specimen-id": {
         "component-namespace": "faims-custom",
         "component-name": "BasicAutoIncrementer",
@@ -450,6 +677,24 @@
       }
     },
     "fviews": {
+      "site-info": {
+        "fields": ["site-id", "site-hrid", "survey-date", "site-name"],
+        "label": "Site Information",
+        "uidesign": "form",
+        "description": "Basic survey site metadata"
+      },
+      "site-location": {
+        "fields": ["site-location-gps", "site-habitat-type", "site-description"],
+        "label": "Site Location & Habitat",
+        "uidesign": "form",
+        "description": "Site location and environmental data"
+      },
+      "site-related": {
+        "fields": ["site-specimens"],
+        "label": "Specimens",
+        "uidesign": "form",
+        "description": "Specimens collected at this site"
+      },
       "collection-info": {
         "fields": ["specimen-id", "hrid-specimen", "collection-date", "collector-name"],
         "label": "Collection Information",
@@ -482,6 +727,13 @@
       }
     },
     "viewsets": {
+      "survey-site": {
+        "views": ["site-info", "site-location", "site-related"],
+        "label": "Survey Site",
+        "hridField": "site-hrid",
+        "publishButtonBehaviour": "always",
+        "layout": "tabs"
+      },
       "specimen": {
         "views": ["collection-info", "location-habitat", "taxonomy", "morphology", "ecology-notes"],
         "label": "Botanical Specimen",
@@ -490,6 +742,6 @@
         "layout": "tabs"
       }
     },
-    "visible_types": ["specimen"]
+    "visible_types": ["survey-site"]
   }
 }
