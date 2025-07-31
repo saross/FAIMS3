@@ -19,6 +19,7 @@ A Survey Unit represents one transect walk. The workflow includes:
 1. Create new **Survey Unit** record
 2. Complete **Basic Information** tab:
    - Survey Unit ID (auto-generated)
+   - Survey Unit HRID (auto-generated in format `SU-{{team}}-{{survey-line}}-{{id}}`, e.g., "SU-A-001-0001")
    - Team selection
    - Survey line number
    - Recorder name
@@ -52,25 +53,36 @@ A Survey Unit represents one transect walk. The workflow includes:
    - Add any final remarks
    - Take overview photos
 
+7. In **Related Records** tab:
+   - Create child POIs and Artifacts directly from the Survey Unit
+   - All child records will be automatically linked to this transect
+   - View all associated finds in one place
+
 ### 2. Point of Interest (POI) Recording
-POIs are recorded for significant cobbles or cores found during survey.
+POIs are recorded for significant cobbles or cores found during survey. All POIs should be created as child records from their parent Survey Unit.
 
 #### POI - Cobble
-1. Create new **POI - Cobble** record
-2. Basic information auto-fills team and recorder
-3. Capture GPS location
-4. Record measurements (weight, length, width, thickness)
-5. Document material properties:
+1. From the Survey Unit's **Related Records** tab, click **Add POI - Cobble**
+2. The record will have:
+   - POI Cobble ID (auto-generated)
+   - POI Cobble HRID (format `POI-C-{{location}}-{{id}}`, e.g., "POI-C-S15E20-0001")
+3. Basic information auto-fills team and recorder
+4. Capture GPS location
+5. Record measurements (weight, length, width, thickness)
+6. Document material properties:
    - Raw material type
    - Crystal size (if applicable)
    - Abundance of flaws percentage
-6. Select cobble angularity
-7. Add photos and notes
+7. Select cobble angularity
+8. Add photos and notes
 
 #### POI - Core
-1. Create new **POI - Core** record
-2. Follow basic POI workflow for location and measurements
-3. Complete detailed core analysis:
+1. From the Survey Unit's **Related Records** tab, click **Add POI - Core**
+2. The record will have:
+   - POI Core ID (auto-generated)
+   - POI Core HRID (format `POI-CR-{{location}}-{{id}}`)
+3. Follow basic POI workflow for location and measurements
+4. Complete detailed core analysis:
    - Completeness (complete/broken)
    - Weathering stage
    - Cortex coverage percentages (whole, upper, lower)
@@ -80,19 +92,22 @@ POIs are recorded for significant cobbles or cores found during survey.
    - Core typology classification
 
 ### 3. Artifact Recording
-Individual artifacts are recorded with detailed technological analysis.
+Individual artifacts are recorded with detailed technological analysis. All artifacts should be created as child records from their parent Survey Unit.
 
 #### Artefact - Flake
-1. Create new **Artefact - Flake** record
-2. Capture location and basic measurements
-3. Note where thickness was measured (bulb/other)
-4. Complete flake analysis:
+1. From the Survey Unit's **Related Records** tab, click **Add Artefact - Flake**
+2. The record will have:
+   - Artefact Flake ID (auto-generated)
+   - Artefact Flake HRID (format `ART-F-{{location}}-{{id}}`)
+3. Capture location and basic measurements
+4. Note where thickness was measured (bulb/other)
+5. Complete flake analysis:
    - Longitudinal portion present
    - Transverse portion present
    - Platform type and cortex
    - Termination type
    - Dorsal cortex percentage
-5. Record technology:
+6. Record technology:
    - Flake typology
    - Scar orientation pattern
    - Count dorsal scars >15mm
@@ -100,33 +115,48 @@ Individual artifacts are recorded with detailed technological analysis.
    - Add detailed comments
 
 #### Artefact - Core
-Similar to POI Core but recorded as an individual artifact find.
+1. From the Survey Unit's **Related Records** tab, click **Add Artefact - Core**
+2. The record will have:
+   - Artefact Core ID (auto-generated)
+   - Artefact Core HRID (format `ART-C-{{location}}-{{id}}`)
+3. Similar to POI Core but recorded as an individual artifact find
 
 #### Artefact - Shatter/Fragment
-Simplified recording for shatter pieces:
-- Basic measurements
-- Cortical coverage percentage
-- Photos
+1. From the Survey Unit's **Related Records** tab, click **Add Artefact - Shatter/Fragment**
+2. The record will have:
+   - Artefact Shatter ID (auto-generated)
+   - Artefact Shatter HRID (format `ART-S-{{location}}-{{id}}`)
+3. Simplified recording for shatter pieces:
+   - Basic measurements
+   - Cortical coverage percentage
+   - Photos
 
 #### Artefact - Other
-For manuports, hammerstones, and grindstones:
-- Select specific type
-- Standard measurements
-- Photos and notes
+1. From the Survey Unit's **Related Records** tab, click **Add Artefact - Other**
+2. The record will have:
+   - Artefact Other ID (auto-generated)
+   - Artefact Other HRID (format `ART-O-{{location}}-{{id}}`)
+3. For manuports, hammerstones, and grindstones:
+   - Select specific type
+   - Standard measurements
+   - Photos and notes
 
 ### 4. Site Recording
 For significant archaeological sites discovered during survey:
 
-1. Create new **Site** record
-2. Enter site name and basic information
-3. Capture GPS location
-4. Select site type (rock shelter, erosion gully, etc.)
-5. Select all applicable:
+1. From the Survey Unit's **Related Records** tab, click **Add Site**
+2. The record will have:
+   - Site ID (auto-generated)
+   - Site HRID (format `SITE-{{survey-line}}-{{id}}`)
+3. Enter site name and basic information
+4. Capture GPS location
+5. Select site type (rock shelter, erosion gully, etc.)
+6. Select all applicable:
    - Estimated ages (ESA, MSA, LSA, etc.)
    - Materials present at site
    - Site conditions
-6. Make recommendation for further investigation
-7. Add detailed notes and photos
+7. Make recommendation for further investigation
+8. Add detailed notes and photos
 
 ## Field Tips
 
@@ -165,6 +195,9 @@ For significant archaeological sites discovered during survey:
 - Multi-level recording (transect → POI/artifact → detailed analysis)
 
 ### New Features
+- Human-Readable IDs (HRIDs) for all records - easy identification
+- Parent-child relationships - all POIs, Artifacts, and Sites linked to Survey Units
+- Related Records tab - create and manage child records from one location
 - Modern interface with tab organization
 - Better photo integration
 - Improved dropdown selections
@@ -178,9 +211,11 @@ For significant archaeological sites discovered during survey:
 - If external GPS, ensure Bluetooth connection
 
 ### Record Relationships
-- POIs and Artifacts are independent of Survey Units
-- No automatic linking between transect and finds
-- Record Survey Line number consistently for later analysis
+- All POIs, Artifacts, and Sites are now child records of Survey Units
+- Parent-child relationships are automatically maintained
+- Create all finds from the Survey Unit's Related Records tab
+- Exports will preserve the hierarchical structure
+- HRIDs make it easy to identify which transect contains which finds
 
 ### Data Synchronization
 - Sync regularly when network available

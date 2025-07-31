@@ -12,10 +12,13 @@ This notebook supports the documentation of Cold War-era civil defense shelters 
 ### Creating a New Shelter Record
 
 1. Open the notebook and select **"Shelter"** from the main menu
-2. The system will automatically generate a unique **Feature ID** for your record
+2. The system will automatically generate:
+   - A unique **Feature ID** for your record
+   - A **Human-Readable ID (HRID)** in the format `{{feature-type}}-{{feature-id}}` (e.g., "Shelter_Type_I-00001")
 3. Fill in the required fields (marked with asterisks)
 4. Use the GPS button to capture location coordinates
 5. Save your record regularly as you work
+6. To add shape annotations, use the **Related Records** tab after saving
 
 ### Required Equipment
 - Mobile device with GPS capability
@@ -30,6 +33,7 @@ This notebook supports the documentation of Cold War-era civil defense shelters 
 
 #### Basic Information
 - **Feature ID**: Automatically generated unique identifier - do not modify
+- **Shelter HRID**: Human-readable identifier combining feature type and ID for easy reference
 - **Feature Type** (Required): Select the shelter type from the dropdown. Refer to the separate image guide for visual examples of each type:
   - Shelter Types I-VI (refer to architectural plans)
   - Bunker
@@ -82,18 +86,30 @@ This notebook supports the documentation of Cold War-era civil defense shelters 
 - **Interior Photo**: Document interior if accessible
 - **Comments and Recommendations**: Final observations and suggestions for preservation/management
 
-### Shape Annotation (Optional)
+### Related Records Tab
 
-For spatial annotations or additional map features:
+After saving your shelter record, use the **Related Records** tab to:
+- **Add Shape Annotations**: Create child records for additional spatial features
+- Each shape annotation will receive its own HRID (e.g., "SHAPE-00001")
+- Shape annotations are permanently linked to their parent shelter
+
+### Shape Annotation (Child Records)
+
+Created from the parent shelter's Related Records tab:
+- **Shape ID**: Automatically generated
+- **Shape HRID**: Human-readable identifier in format `SHAPE-{{shape-id}}`
 - **Label**: Brief identifier for the shape
 - **Note**: Detailed description of what the shape represents
 
 ## Important Changes from Previous Version
 
 ### New Features
-1. **Automatic GPS capture**: Single button replaces manual coordinate entry
-2. **Auto-generated timestamps**: No manual date/time entry needed
-3. **Streamlined photo capture**: Direct camera integration
+1. **Human-Readable IDs (HRIDs)**: All records now have meaningful identifiers for easy reference
+2. **Parent-Child Relationships**: Shape annotations are explicitly linked to their parent shelters
+3. **Related Records Tab**: Manage shape annotations directly from the shelter record
+4. **Automatic GPS capture**: Single button replaces manual coordinate entry
+5. **Auto-generated timestamps**: No manual date/time entry needed
+6. **Streamlined photo capture**: Direct camera integration
 
 ### Modified Features
 1. **Shelter Type Selection**: Image references now provided in separate guide (not embedded in dropdown)

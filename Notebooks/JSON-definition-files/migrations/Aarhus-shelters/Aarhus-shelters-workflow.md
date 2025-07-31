@@ -188,9 +188,18 @@ flowchart LR
    - Compass readings
 
 ### Output Format
-- JSON records with all field values
+- JSON records with all field values and HRIDs
 - Binary attachments (photos) linked by reference
 - Metadata (annotations, uncertainty) embedded
+- Parent-child relationships preserved
+- Human-readable IDs for easy identification
+
+### Export Options
+- CSV with flattened structure (includes HRIDs)
+- JSON preserving parent-child relationships
+- Hierarchical export showing shelters with nested annotations
+- GeoJSON for spatial analysis
+- Photo archives with metadata
 
 ## Quality Control Mechanisms
 

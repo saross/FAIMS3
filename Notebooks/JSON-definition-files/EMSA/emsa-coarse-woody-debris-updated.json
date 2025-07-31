@@ -41,6 +41,31 @@
           }
         }
       },
+      "survey-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Survey HRID",
+          "name": "survey-hrid",
+          "helperText": "Human-readable survey identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "template": "CWD-{{project}}-{{plot}}-{{survey-id}}"
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
       "context": {
         "component-namespace": "formik-material-ui",
         "component-name": "TextField",
@@ -336,6 +361,34 @@
           }
         }
       },
+      "survey-observations": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Dead Wood Observations",
+          "name": "survey-observations",
+          "helperText": "Create and manage dead wood observations for this survey",
+          "fullWidth": true,
+          "variant": "outlined",
+          "related_type": "DeadWoodObservation",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
       "observation-id": {
         "component-namespace": "faims-custom",
         "component-name": "BasicAutoIncrementer",
@@ -362,22 +415,19 @@
           }
         }
       },
-      "survey-reference": {
+      "observation-hrid": {
         "component-namespace": "faims-custom",
-        "component-name": "RelatedRecordSelector",
-        "type-returned": "faims-core::Relationship",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
         "component-parameters": {
-          "label": "Survey Reference",
-          "name": "survey-reference",
-          "helperText": "Select the survey this observation belongs to",
+          "label": "Observation HRID",
+          "name": "observation-hrid",
+          "helperText": "Human-readable observation identifier",
           "fullWidth": true,
           "variant": "outlined",
-          "related_type": "Survey",
-          "relation_type": "is-related-to",
-          "multiple": false,
-          "required": true
+          "template": "OBS-{{location-waypoint}}-{{observation-id}}"
         },
-        "validationSchema": [["yup.string"], ["yup.required"]],
+        "validationSchema": [["yup.string"]],
         "initialValue": "",
         "meta": {
           "annotation": {
@@ -725,16 +775,17 @@
         "label": "Survey Details",
         "fields": [
           "survey-id",
+          "survey-hrid",
           "context",
           "project",
           "plot",
-          "visit"
+          "visit",
+          "observer-name"
         ]
       },
       "Survey-Timing": {
         "label": "Survey Timing",
         "fields": [
-          "observer-name",
           "start-datetime",
           "end-datetime"
         ]
@@ -747,11 +798,17 @@
           "length-threshold"
         ]
       },
+      "Survey-Relationships": {
+        "label": "Related Records",
+        "fields": [
+          "survey-observations"
+        ]
+      },
       "Observation-Basic": {
         "label": "Basic Information",
         "fields": [
           "observation-id",
-          "survey-reference",
+          "observation-hrid",
           "location-waypoint",
           "debris-type"
         ]
@@ -778,15 +835,15 @@
     "viewsets": {
       "Survey": {
         "label": "Coarse Woody Debris Survey",
-        "views": ["Survey-Details", "Survey-Timing", "Survey-Parameters"],
-        "hridField": "survey-id",
+        "views": ["Survey-Details", "Survey-Timing", "Survey-Parameters", "Survey-Relationships"],
+        "hridField": "survey-hrid",
         "publishButtonBehaviour": "visited",
         "layout": "tabs"
       },
       "DeadWoodObservation": {
         "label": "Dead Wood Observation",
         "views": ["Observation-Basic", "Observation-Measurements", "Observation-Documentation"],
-        "hridField": "observation-id",
+        "hridField": "observation-hrid",
         "publishButtonBehaviour": "visited",
         "layout": "tabs"
       }

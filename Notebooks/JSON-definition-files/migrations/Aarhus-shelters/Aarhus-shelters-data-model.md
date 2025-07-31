@@ -118,6 +118,7 @@ This document describes the data model extracted from the Aarhus Civil Defense S
 erDiagram
     SHELTER_RECORD {
         string feature_id PK "Auto-increment"
+        string shelter_hrid UK "Template: {{type}}-{{id}}"
         string feature_type "Required"
         string shelter_author FK "User reference"
         datetime shelter_timestamp
@@ -145,9 +146,13 @@ erDiagram
         string interior_description
         file interior_photo
         string comments_recommendations
+        relationship shape_annotations "Child: Shape_Annotation[]"
     }
     
     SHAPE_ANNOTATION {
+        string shape_id PK "Auto-increment"
+        string shape_hrid UK "Template: SHAPE-{{id}}"
+        string parent_shelter FK "Parent: SHELTER_RECORD"
         string shape_label
         string shape_note
     }
@@ -157,7 +162,7 @@ erDiagram
     }
     
     USER ||--o{ SHELTER_RECORD : creates
-    SHELTER_RECORD ||--o{ SHAPE_ANNOTATION : "may have"
+    SHELTER_RECORD ||--o{ SHAPE_ANNOTATION : "has child"
 ```
 
 ## Data Integrity Rules
@@ -206,3 +211,39 @@ This data model supports archaeological documentation of Cold War infrastructure
 5. **Access evaluation**: Public safety considerations
 
 The model balances standardized data collection (controlled vocabularies) with flexibility for unique observations (free-text fields and annotations).
+
+## Data Capture Process
+
+1. **Shelter Record Creation**
+   - System generates unique Feature ID and HRID
+   - User completes four sections of data (including relationships)
+   - 9 required fields must be completed
+   - Photos captured for documentation
+   - Location recorded via GPS or manual entry
+   - Shape annotations can be added from Related Records tab
+
+2. **Shape Annotation Creation**
+   - Created as child records from parent Shelter
+   - System generates unique Shape ID and HRID
+   - Automatically linked to parent shelter
+   - Minimal data requirements
+   - Used for additional spatial features related to the shelter
+
+## Data Export Structure
+
+Data exports maintain field-level metadata including:
+- Field values with HRIDs for easy identification
+- Parent-child relationships preserved
+- Annotation text (where enabled)
+- Uncertainty indicators (where enabled)
+- Photo references (file paths/URLs)
+- GPS coordinates with accuracy metrics
+- User attribution
+- Timestamps
+
+## Key Design Features
+
+1. **Human-Readable IDs**: Both entities use HRIDs for easy identification in lists and reports
+2. **Parent-Child Integrity**: Shape annotations are explicitly linked to shelters, preventing orphaned records
+3. **Hierarchical Export**: Data can be exported with nested structure showing shelters and their annotations
+4. **Consistent Patterns**: HRIDs follow clear patterns for easy recognition

@@ -42,6 +42,33 @@
         }
       },
       
+      "shelter-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Shelter Reference",
+          "name": "shelter-hrid",
+          "template": "{{feature-type}}-{{feature-id}}",
+          "helperText": "Auto-generated reference code",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {"type": "text", "readOnly": true}
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      
       "feature-type": {
         "component-namespace": "faims-custom",
         "component-name": "Select",
@@ -905,6 +932,89 @@
         }
       },
       
+      "shape-annotations": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Shape Annotations",
+          "name": "shape-annotations",
+          "fullWidth": true,
+          "helperText": "Add shape annotations for this shelter",
+          "related_type": "shape-annotation",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      
+      "shape-id": {
+        "component-namespace": "faims-custom",
+        "component-name": "BasicAutoIncrementer",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Shape ID",
+          "name": "shape-id",
+          "helperText": "Auto-generated unique identifier",
+          "fullWidth": true,
+          "variant": "outlined",
+          "required": true,
+          "num_digits": 5,
+          "form_id": "shape-annotation"
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      
+      "shape-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Shape Reference",
+          "name": "shape-hrid",
+          "template": "SHAPE-{{shape-id}}",
+          "helperText": "Auto-generated reference code",
+          "fullWidth": true,
+          "variant": "outlined",
+          "InputProps": {"type": "text", "readOnly": true}
+        },
+        "validationSchema": [["yup.string"], ["yup.required"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      
       "shape-label": {
         "component-namespace": "formik-material-ui",
         "component-name": "TextField",
@@ -964,6 +1074,7 @@
         "label": "General",
         "fields": [
           "feature-id",
+          "shelter-hrid",
           "feature-type",
           "shelter-author",
           "shelter-timestamp",
@@ -1003,9 +1114,17 @@
           "comments-and-recommendations"
         ]
       },
+      "relationships-section": {
+        "label": "Related Records",
+        "fields": [
+          "shape-annotations"
+        ]
+      },
       "shape-section": {
         "label": "Shape Note",
         "fields": [
+          "shape-id",
+          "shape-hrid",
           "shape-label",
           "shape-note"
         ]
@@ -1015,15 +1134,15 @@
     "viewsets": {
       "shelter-record": {
         "label": "Shelter",
-        "views": ["general-section", "access-section", "interior-section"],
-        "hridField": "feature-id",
+        "views": ["general-section", "access-section", "interior-section", "relationships-section"],
+        "hridField": "shelter-hrid",
         "publishButtonBehaviour": "visited",
         "layout": "tabs"
       },
       "shape-annotation": {
         "label": "Shape",
         "views": ["shape-section"],
-        "hridField": "shape-label",
+        "hridField": "shape-hrid",
         "publishButtonBehaviour": "always"
       }
     },

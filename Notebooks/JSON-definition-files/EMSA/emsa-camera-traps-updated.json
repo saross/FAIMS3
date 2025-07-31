@@ -2163,6 +2163,35 @@
           }
         }
       },
+      "reequip-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Re-equip Reference",
+          "name": "reequip-hrid",
+          "helperText": "Auto-generated reference code",
+          "fullWidth": true,
+          "variant": "outlined",
+          "template": "REEQUIP-{{reequip-id}}",
+          "InputProps": {
+            "type": "text",
+            "readOnly": true
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
       "reequip-id": {
         "component-namespace": "faims-custom",
         "component-name": "BasicAutoIncrementer",
@@ -2178,6 +2207,62 @@
         },
         "validationSchema": [["yup.string"]],
         "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "deployment-reequips": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Re-equipping Events",
+          "name": "deployment-reequips",
+          "helperText": "Track re-equipping events for this deployment",
+          "fullWidth": true,
+          "variant": "outlined",
+          "related_type": "CameraTrapReequip",
+          "relation_type": "Child",
+          "multiple": true,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.array"]],
+        "initialValue": [],
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
+      "deployment-retrieval": {
+        "component-namespace": "faims-custom",
+        "component-name": "RelatedRecordSelector",
+        "type-returned": "faims-core::Relationship",
+        "component-parameters": {
+          "label": "Retrieval Event",
+          "name": "deployment-retrieval",
+          "helperText": "Link the retrieval event for this deployment",
+          "fullWidth": true,
+          "variant": "outlined",
+          "related_type": "CameraTrapRetrieval",
+          "relation_type": "Child",
+          "multiple": false,
+          "allowLinkToExisting": false
+        },
+        "validationSchema": [["yup.object"], ["yup.nullable"]],
+        "initialValue": null,
         "meta": {
           "annotation": {
             "include": false,
@@ -2677,6 +2762,35 @@
           }
         }
       },
+      "retrieval-hrid": {
+        "component-namespace": "faims-custom",
+        "component-name": "TemplatedStringField",
+        "type-returned": "faims-core::String",
+        "component-parameters": {
+          "label": "Retrieval Reference",
+          "name": "retrieval-hrid",
+          "helperText": "Auto-generated reference code",
+          "fullWidth": true,
+          "variant": "outlined",
+          "template": "RETRIEVAL-{{retrieval-id}}",
+          "InputProps": {
+            "type": "text",
+            "readOnly": true
+          }
+        },
+        "validationSchema": [["yup.string"]],
+        "initialValue": "",
+        "meta": {
+          "annotation": {
+            "include": false,
+            "label": "annotation"
+          },
+          "uncertainty": {
+            "include": false,
+            "label": "uncertainty"
+          }
+        }
+      },
       "retrieval-id": {
         "component-namespace": "faims-custom",
         "component-name": "BasicAutoIncrementer",
@@ -3046,10 +3160,18 @@
           "deployment-survey-end-datetime"
         ]
       },
+      "Deployment-Relationships": {
+        "label": "Related Records",
+        "fields": [
+          "deployment-reequips",
+          "deployment-retrieval"
+        ]
+      },
       "Reequip-Basic": {
         "label": "Basic Information",
         "fields": [
           "reequip-id",
+          "reequip-hrid",
           "deployment-reference",
           "reequip-survey-start-datetime",
           "reequip-date"
@@ -3083,6 +3205,7 @@
         "label": "Basic Information",
         "fields": [
           "retrieval-id",
+          "retrieval-hrid",
           "retrieval-deployment-reference",
           "retrieval-survey-start-datetime",
           "retrieval-date"
@@ -3116,7 +3239,8 @@
           "Deployment-Settings2",
           "Deployment-TimeLapse",
           "Deployment-Positioning",
-          "Deployment-Documentation"
+          "Deployment-Documentation",
+          "Deployment-Relationships"
         ],
         "hridField": "deployment-id",
         "publishButtonBehaviour": "visited",
@@ -3130,7 +3254,7 @@
           "Reequip-Replacement",
           "Reequip-Documentation"
         ],
-        "hridField": "reequip-id",
+        "hridField": "reequip-hrid",
         "publishButtonBehaviour": "visited",
         "layout": "tabs"
       },
@@ -3141,7 +3265,7 @@
           "Retrieval-Status",
           "Retrieval-Documentation"
         ],
-        "hridField": "retrieval-id",
+        "hridField": "retrieval-hrid",
         "publishButtonBehaviour": "visited",
         "layout": "tabs"
       }
