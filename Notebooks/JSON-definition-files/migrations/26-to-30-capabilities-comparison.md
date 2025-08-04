@@ -53,7 +53,7 @@ This document provides a comprehensive mapping of features between FAIMS2.x (leg
 | `<input t="camera">` | TakePhoto | faims-custom | Direct mapping, multiple photos supported |
 | `<input t="file">` | FileUploader | faims-custom | Direct mapping |
 | `<input t="gpsdiag">` | TakePoint | faims-custom | Returns faims-pos::Location object |
-| `<input t="map">` | MapFormField | mapping-plugin | Basic polygon/point drawing |
+| `<input t="map">` | MapFormField | mapping-plugin | Points, lines, polygons supported |
 | `<input t="web">` | No equivalent | - | Feature lost |
 | `<input t="qrcode">` | QRCodeFormField | qrcode | Namespace: qrcode, not faims-custom |
 
@@ -149,12 +149,15 @@ This document provides a comprehensive mapping of features between FAIMS2.x (leg
 | GPS tracklog | TakePoint (start/end only) | No continuous tracking |
 | External GPS integration | Device-handled via OS | Works with Bluetooth GPS |
 | Northing/Easting display | Lat/Long only | Post-processing needed |
-| Complex polygon editing | MapFormField (mapping-plugin) | Basic shapes only |
-| Multiple geometry types | Single type per field | Separate fields needed |
+| Complex polygon editing | MapFormField (mapping-plugin) | Full support for points, lines, polygons |
+| Multiple geometry types | Single type per field | Use featureType parameter |
 | Spatial queries | Not supported | Feature lost |
-| GIS layer management | Automatic tile server | No offline maps yet |
+| GIS layer management | Automatic tile server | Requires internet, offline experimental |
 | Coordinate transformations | Not supported | Manual conversion needed |
 | GPS accuracy display | Included in Location object | Automatic capture |
+| Drawing on maps | MapFormField | Interactive drawing of features |
+| Feature editing | MapFormField | Can edit drawn features |
+| GeoJSON export | MapFormField returns GeoJSON | Standard format for GIS |
 
 ### Custom Logic
 
@@ -252,15 +255,22 @@ The following FAIMS2.x features have no direct equivalent in FAIMS3.x:
 
 Based on practical migration experience, the expected feature parity varies by module type:
 - **Simple data collection**: 95% (most features directly map)
-- **Complex surveys**: 85% (GPS/GIS limitations)
+- **Complex surveys**: 90% (improved with MapFormField for drawing)
 - **Highly customized modules**: 70% (loss of Beanshell logic)
 - **Media-heavy workflows**: 80% (no recording UI)
 
 The main losses are in:
 - Advanced customization (scripts, styling)
-- Complex geospatial capabilities  
+- Offline GIS layers (requires internet for base maps)
 - Dynamic behaviors
 - Multimedia recording interfaces
 - Background services (GPS tracking)
+
+Notable improvements in FAIMS3:
+- Interactive map drawing (points, lines, polygons)
+- Better mobile experience
+- Simplified relationship management
+- Modern validation framework (Yup)
+- GeoJSON standard for spatial data
 
 Most core data collection functionality can be preserved through careful adaptation and simplification of module designs. The modern UI and offline capabilities often compensate for lost features.

@@ -99,6 +99,629 @@ Before creating ANY notebook, remember:
 }
 ```
 
+## 🔧 COMPLETE FIELD TYPE REFERENCE
+
+### TEXT INPUT FIELDS
+
+#### Single-Line Text (FAIMS Text Field)
+```json
+"text-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "FAIMSTextField",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Field Label",
+    "name": "text-field",
+    "helperText": "Help text here",
+    "fullWidth": true,
+    "variant": "outlined",
+    "required": false
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": true, "label": "notes"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Short text like names, IDs, brief descriptions
+
+#### Email Field
+```json
+"email-field": {
+  "component-namespace": "formik-material-ui",
+  "component-name": "TextField",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Email Address",
+    "name": "email-field",
+    "fullWidth": true,
+    "variant": "outlined",
+    "InputProps": {"type": "email"}
+  },
+  "validationSchema": [["yup.string"], ["yup.email", "Invalid email address"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Collecting email addresses with built-in validation
+
+#### Multi-Line Text Field
+```json
+"notes-field": {
+  "component-namespace": "formik-material-ui",
+  "component-name": "MultipleTextField",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Notes",
+    "name": "notes-field",
+    "helperText": "Enter detailed notes",
+    "fullWidth": true,
+    "variant": "outlined",
+    "multiline": true,
+    "InputProps": {"rows": 4}
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Long text, descriptions, comments, field notes
+
+#### Templated String Field (for HRIDs)
+```json
+"hrid-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "TemplatedStringField",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Record ID",
+    "name": "hrid-field",
+    "fullWidth": true,
+    "template": "{{site-type}}-{{site-id}}-{{year}}",
+    "helperText": "Auto-generated from type, ID and year",
+    "InputProps": {"type": "text", "readOnly": true}
+  },
+  "validationSchema": [["yup.string"], ["yup.required"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Creating human-readable IDs by combining other field values
+
+#### QR Code Scanner (Mobile Only)
+```json
+"qr-scanner": {
+  "component-namespace": "qrcode",
+  "component-name": "QRCodeFormField",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Scan QR/Barcode",
+    "name": "qr-scanner",
+    "fullWidth": true,
+    "helperText": "Tap to scan (mobile app only)"
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Scanning QR codes or barcodes on specimens, bags, or labels (iOS/Android apps only)
+
+#### Address Field
+```json
+"address-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "AddressField",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Street Address",
+    "name": "address-field",
+    "fullWidth": true,
+    "helperText": "Enter a valid street address"
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Structured address input with validation
+
+### NUMBER FIELDS
+
+#### Basic Number Field
+```json
+"number-field": {
+  "component-namespace": "formik-material-ui",
+  "component-name": "TextField",
+  "type-returned": "faims-core::Integer",
+  "component-parameters": {
+    "label": "Number",
+    "name": "number-field",
+    "fullWidth": true,
+    "variant": "outlined",
+    "InputProps": {"type": "number"}
+  },
+  "validationSchema": [["yup.number"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": true, "label": "measurement notes"},
+    "uncertainty": {"include": true, "label": "accuracy"}
+  }
+}
+```
+**When to use**: Simple numeric input without constraints
+
+#### Controlled Number Field
+```json
+"controlled-number": {
+  "component-namespace": "faims-custom",
+  "component-name": "NumberField",
+  "type-returned": "faims-core::Number",
+  "component-parameters": {
+    "label": "Temperature (°C)",
+    "name": "controlled-number",
+    "fullWidth": true,
+    "helperText": "Enter temperature between -50 and 50",
+    "min": -50,
+    "max": 50
+  },
+  "validationSchema": [["yup.number"], ["yup.min", -50], ["yup.max", 50]],
+  "initialValue": null,
+  "meta": {
+    "annotation": {"include": true, "label": "measurement notes"},
+    "uncertainty": {"include": true, "label": "accuracy"}
+  }
+}
+```
+**When to use**: Numeric input with min/max validation constraints
+
+#### Auto-Incrementing Field
+```json
+"auto-id": {
+  "component-namespace": "faims-custom",
+  "component-name": "BasicAutoIncrementer",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Sample ID",
+    "name": "auto-id",
+    "variant": "outlined",
+    "num_digits": 5,
+    "form_id": "main-form"
+  },
+  "validationSchema": [["yup.string"], ["yup.required"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Sequential numbering (00001, 00002, etc.) for specimens, samples, or features
+
+### DATE & TIME FIELDS
+
+#### Date and Time Picker
+```json
+"datetime-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "DateTimePicker",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Date & Time",
+    "name": "datetime-field",
+    "fullWidth": true,
+    "helperText": "Select date and time"
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Recording precise timestamps for events or observations
+
+#### Date Picker (Date Only)
+```json
+"date-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "DatePicker",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Collection Date",
+    "name": "date-field",
+    "fullWidth": true,
+    "helperText": "Select date"
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Recording dates without specific times
+
+#### Month Picker
+```json
+"month-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "MonthPicker",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Month/Year",
+    "name": "month-field",
+    "fullWidth": true,
+    "helperText": "Select month and year"
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Recording month/year only (e.g., "June 2024")
+
+#### DateTime with Now Button
+```json
+"timestamp-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "DateTimeNow",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Recorded At",
+    "name": "timestamp-field",
+    "fullWidth": true,
+    "helperText": "Click 'Now' to set current time"
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Capturing "recorded at" timestamps with one-click current time
+
+### MEDIA FIELDS
+
+#### File Upload
+```json
+"file-upload": {
+  "component-namespace": "faims-custom",
+  "component-name": "FileUploader",
+  "type-returned": "faims-attachment::Files",
+  "component-parameters": {
+    "label": "Upload Files",
+    "name": "file-upload",
+    "fullWidth": true,
+    "helperText": "Upload PDFs, images, or other documents"
+  },
+  "validationSchema": [
+    ["yup.array"],
+    ["yup.of", [["yup.object"], ["yup.nullable"]]],
+    ["yup.nullable"]
+  ],
+  "initialValue": null,
+  "meta": {
+    "annotation": {"include": true, "label": "file description"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Attaching PDFs, audio files, videos, DSLR photos, permits, contracts, etc.
+
+#### Photo Capture
+```json
+"photo-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "TakePhoto",
+  "type-returned": "faims-attachment::Files",
+  "component-parameters": {
+    "label": "Take Photos",
+    "name": "photo-field",
+    "fullWidth": true,
+    "helperText": "Capture photos or upload images"
+  },
+  "validationSchema": [
+    ["yup.array"],
+    ["yup.of", [["yup.object"], ["yup.nullable"]]],
+    ["yup.nullable"]
+  ],
+  "initialValue": null,
+  "meta": {
+    "annotation": {"include": true, "label": "photo description"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Taking photos with device camera or uploading existing images
+
+### LOCATION FIELDS
+
+#### Map Field (Interactive)
+```json
+"map-field": {
+  "component-namespace": "mapping-plugin",
+  "component-name": "MapFormField",
+  "type-returned": "faims-core::JSON",
+  "component-parameters": {
+    "label": "Draw Feature",
+    "name": "map-field",
+    "fullWidth": true,
+    "helperText": "Draw point, line, or polygon on map",
+    "featureType": "Polygon",  // Options: "Point", "LineString", "Polygon"
+    "zoom": 15
+  },
+  "validationSchema": [["yup.object"], ["yup.nullable"]],
+  "initialValue": null,
+  "meta": {
+    "annotation": {"include": true, "label": "location notes"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Drawing geographic features on a map (requires internet for base maps)
+
+#### GPS Point Capture
+```json
+"gps-location": {
+  "component-namespace": "faims-custom",
+  "component-name": "TakePoint",
+  "type-returned": "faims-pos::Location",
+  "component-parameters": {
+    "label": "GPS Location",
+    "name": "gps-location",
+    "fullWidth": true,
+    "helperText": "Click to capture GPS coordinates"
+  },
+  "validationSchema": [["yup.object"], ["yup.nullable"]],
+  "initialValue": null,
+  "meta": {
+    "annotation": {"include": true, "label": "location notes"},
+    "uncertainty": {"include": true, "label": "GPS accuracy"}
+  }
+}
+```
+**When to use**: Recording current GPS coordinates as a point
+
+### CHOICE FIELDS
+
+#### Checkbox (Boolean)
+```json
+"checkbox-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "Checkbox",
+  "type-returned": "faims-core::Bool",
+  "component-parameters": {
+    "label": "Is this complete?",
+    "name": "checkbox-field",
+    "fullWidth": true,
+    "helperText": "Check if yes"
+  },
+  "validationSchema": [["yup.boolean"]],
+  "initialValue": false,
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Yes/no questions, feature presence/absence
+
+#### Select Multiple (Visible List)
+```json
+"multi-select-visible": {
+  "component-namespace": "faims-custom",
+  "component-name": "MultiSelect",
+  "type-returned": "faims-core::Array",
+  "component-parameters": {
+    "label": "Select Materials",
+    "name": "multi-select-visible",
+    "fullWidth": true,
+    "variant": "outlined",
+    "select": true,
+    "SelectProps": {"multiple": true},
+    "ElementProps": {
+      "options": [
+        {"value": "ceramic", "label": "Ceramic"},
+        {"value": "glass", "label": "Glass"},
+        {"value": "metal", "label": "Metal"},
+        {"value": "stone", "label": "Stone"}
+      ]
+    }
+  },
+  "validationSchema": [["yup.array"]],
+  "initialValue": [],
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Multiple selections where seeing all options at once is helpful
+
+#### Radio Group (Single Choice, Visible)
+```json
+"radio-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "RadioGroup",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Condition",
+    "name": "radio-field",
+    "fullWidth": true,
+    "variant": "outlined",
+    "ElementProps": {
+      "options": [
+        {"value": "excellent", "label": "Excellent"},
+        {"value": "good", "label": "Good"},
+        {"value": "fair", "label": "Fair"},
+        {"value": "poor", "label": "Poor"}
+      ]
+    }
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Single choice from 2-5 options where visibility is important
+
+#### Select Dropdown (Single/Multi)
+```json
+"select-field": {
+  "component-namespace": "faims-custom",
+  "component-name": "Select",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Select Type",
+    "name": "select-field",
+    "fullWidth": true,
+    "variant": "outlined",
+    "required": false,
+    "select": true,
+    "ElementProps": {
+      "options": [
+        {"value": "type1", "label": "Type 1"},
+        {"value": "type2", "label": "Type 2"},
+        {"value": "type3", "label": "Type 3"}
+      ]
+    }
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": true, "label": "selection notes"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Compact selection from many options (can be configured for multi-select)
+
+#### Hierarchical Select
+```json
+"hierarchical-select": {
+  "component-namespace": "faims-custom",
+  "component-name": "AdvancedSelect",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "label": "Classification",
+    "name": "hierarchical-select",
+    "fullWidth": true,
+    "variant": "outlined",
+    "ElementProps": {
+      "options": [
+        {
+          "value": "fauna",
+          "label": "Fauna",
+          "children": [
+            {
+              "value": "fauna/mammal",
+              "label": "Mammal",
+              "children": [
+                {"value": "fauna/mammal/small", "label": "Small"},
+                {"value": "fauna/mammal/large", "label": "Large"}
+              ]
+            },
+            {
+              "value": "fauna/bird",
+              "label": "Bird"
+            }
+          ]
+        },
+        {
+          "value": "flora",
+          "label": "Flora"
+        }
+      ]
+    }
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Nested taxonomies, hierarchical vocabularies
+
+### RELATIONSHIP FIELDS
+
+#### Related Record Selector (Parent-Child)
+```json
+"child-records": {
+  "component-namespace": "faims-custom",
+  "component-name": "RelatedRecordSelector",
+  "type-returned": "faims-core::Relationship",
+  "component-parameters": {
+    "label": "Add Samples",
+    "name": "child-records",
+    "fullWidth": true,
+    "helperText": "Add sample records to this site",
+    "related_type": "Sample-Form",
+    "relation_type": "Child",
+    "multiple": true,
+    "allowLinkToExisting": false
+  },
+  "validationSchema": [["yup.array"]],
+  "initialValue": [],
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Creating parent-child relationships between records
+
+### DISPLAY FIELDS
+
+#### Rich Text (Static Display)
+```json
+"instructions": {
+  "component-namespace": "faims-custom",
+  "component-name": "RichText",
+  "type-returned": "faims-core::String",
+  "component-parameters": {
+    "name": "instructions",
+    "content": "## Instructions\n\nPlease follow these steps:\n1. First do this\n2. Then do that\n\n**Important:** Remember to save your work!"
+  },
+  "validationSchema": [["yup.string"]],
+  "initialValue": "",
+  "meta": {
+    "annotation": {"include": false, "label": "annotation"},
+    "uncertainty": {"include": false, "label": "uncertainty"}
+  }
+}
+```
+**When to use**: Adding headings, instructions, or formatted text to forms
+
 ### Common Field Templates
 
 #### Text Field (Required)
@@ -833,6 +1456,73 @@ When creating ANY notebook, always:
 3. **Wrong relationship type**: Using "is-related-to" when "Child" is appropriate
 4. **Inconsistent patterns**: Different HRID formats across related forms
 5. **No inheritance**: Child forms re-entering parent data instead of inheriting
+
+## 📊 FIELD SELECTION DECISION GUIDE
+
+### Choosing the Right Text Field
+- **FAIMSTextField**: Default for single-line text (names, IDs, short descriptions)
+- **Email Field**: When you need email validation
+- **MultipleTextField**: Multi-line text (notes, descriptions, comments)
+- **TemplatedStringField**: ALWAYS use for HRIDs - combines other fields
+- **QRCodeFormField**: Scanning physical labels/codes (mobile only!)
+- **AddressField**: Structured address with validation
+
+### Choosing the Right Number Field
+- **Basic TextField with type="number"**: Simple counts without validation
+- **NumberField (Controlled)**: When you need min/max limits or decimal precision
+- **BasicAutoIncrementer**: Sequential IDs (00001, 00002...)
+
+### Choosing the Right Date/Time Field
+- **DateTimePicker**: Need both date AND time
+- **DatePicker**: Date only (most common)
+- **MonthPicker**: Just month/year (e.g., seasonal data)
+- **DateTimeNow**: "Recorded at" fields with quick timestamp button
+
+### Choosing the Right Selection Field
+**Single Selection:**
+- **RadioGroup**: 2-5 options, all visible (e.g., Yes/No/Maybe)
+- **Select (Dropdown)**: >5 options OR space is limited
+- **AdvancedSelect**: Hierarchical/nested options (taxonomies)
+
+**Multiple Selection:**
+- **Checkbox**: Single yes/no boolean
+- **MultiSelect**: Multiple choices from a list
+- **Select with multiple:true**: Alternative multi-select implementation
+
+### Choosing the Right Media Field
+- **TakePhoto**: Field photos, specimen images (includes upload option)
+- **FileUploader**: PDFs, audio, video, DSLR photos, documents
+
+### Choosing the Right Location Field
+- **TakePoint**: Single GPS coordinate capture
+- **MapFormField**: Drawing features (points/lines/polygons) on a map
+  - Requires internet for base maps
+  - Can draw multiple features
+  - Choose featureType: "Point", "LineString", or "Polygon"
+
+### Special Considerations
+
+#### Conditional Fields
+Use the `condition` property to show/hide fields based on other field values:
+```json
+"condition": {
+  "field": "has-measurements",
+  "operator": "equal",
+  "value": true
+}
+```
+
+#### Field Visibility by Platform
+- **QR Scanner**: Mobile apps only (iOS/Android)
+- **Camera**: Works on all platforms but better on mobile
+- **GPS**: Works best on mobile devices
+- **Maps**: Requires internet connection
+
+#### Performance Tips
+- Use **RadioGroup/MultiSelect** for <10 options (all visible)
+- Use **Select dropdown** for >10 options (saves screen space)
+- Use **AdvancedSelect** for hierarchical data only
+- Keep forms under 20 fields per view for better mobile performance
 
 ---
 
