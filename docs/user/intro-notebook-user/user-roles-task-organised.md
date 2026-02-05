@@ -632,7 +632,7 @@ The Users tab shows two types of access:
 | Role | Display Name | Permissions |
 |------|--------------|-------------|
 | PROJECT_ADMIN | Administrator | Full control, manage administrators, delete {{notebook}} |
-| PROJECT_MANAGER | Manager | Edit design, close {{notebook}}, reassign team, export, manage invites/access |
+| PROJECT_MANAGER | Manager | Edit design, close {{notebook}}, export, manage invites/access |
 | PROJECT_CONTRIBUTOR | Contributor | Edit others' records (plus all Guest permissions) |
 | PROJECT_GUEST | Guest | Activate {{notebook}}, create records, view/edit/delete own records |
 
@@ -704,7 +704,7 @@ To transfer a {{notebook}} to a new owner:
 | Role | Display Name | Permissions |
 |------|--------------|-------------|
 | PROJECT_ADMIN | Administrator | Full control, manage administrators, delete {{notebook}} |
-| PROJECT_MANAGER | Manager | Edit design, close {{notebook}}, reassign team, export, manage invites/access |
+| PROJECT_MANAGER | Manager | Edit design, close {{notebook}}, export, manage invites/access |
 | PROJECT_CONTRIBUTOR | Contributor | Edit others' records (plus all Guest permissions) |
 | PROJECT_GUEST | Guest | Activate {{notebook}}, create records, view/edit/delete own records |
 
@@ -723,33 +723,33 @@ To transfer a {{notebook}} to a new owner:
 
 | Action | Guest | Contributor | Manager | Administrator |
 |--------|:-----:|:-----------:|:-------:|:-------------:|
-| View/edit/delete own records | | | | |
-| Create records | | | | |
-| View all records | | | | |
-| Edit others' records | | | | |
-| Export own data | | | | |
-| Export all {{notebook}} data | | | | |
-| Edit {{notebook}} design | | | | |
-| Close/reopen {{notebook}} | | | | |
-| Reassign to different team | | | | |
-| Manage invites/users | | | | |
-| Manage administrators | | | | |
-| Delete {{notebook}} | | | | |
+| View/edit/delete own records | ✅ | ✅ | ✅ | ✅ |
+| Create records | ✅ | ✅ | ✅ | ✅ |
+| View all records | ❌ | ✅ | ✅ | ✅ |
+| Edit others' records | ❌ | ✅ | ✅ | ✅ |
+| Export own data | ✅ | ✅ | ✅ | ✅ |
+| Export all {{notebook}} data | ❌ | ❌ | ✅ | ✅ |
+| Edit {{notebook}} design | ❌ | ❌ | ✅ | ✅ |
+| Close/reopen {{notebook}} | ❌ | ❌ | ✅ | ✅ |
+| Reassign to different team | ❌ | ❌ | ❌ | ✅ |
+| Manage invites/users | ❌ | ❌ | ✅ | ✅ |
+| Manage administrators | ❌ | ❌ | ❌ | ✅ |
+| Delete {{notebook}} | ❌ | ❌ | ❌ | ✅ |
 
 ### 5.4 Permission Matrix — Teams
 
 | Action | Member (Contributor) | Member (Creator) | Manager | Administrator |
 |--------|:--------------------:|:----------------:|:-------:|:-------------:|
-| View team details | | | | |
-| View team templates | | | | |
-| Access team {{notebooks}} (virtual role) | | | | |
-| Create {{notebooks}} in team | | | | |
-| Create templates in team | | | | |
-| Add/remove team members | | | | |
-| Add/remove team managers | | | | |
-| Add team administrators | | | | GENERAL_ADMIN only |
-| Edit team details | | | | |
-| Delete team | | | | |
+| View team details | ✅ | ✅ | ✅ | ✅ |
+| View team templates | ✅ | ✅ | ✅ | ✅ |
+| Access team {{notebooks}} (virtual role) | ✅ | ❌ | ✅ | ✅ |
+| Create {{notebooks}} in team | ❌ | ✅ | ✅ | ✅ |
+| Create templates in team | ❌ | ❌ | ✅ | ✅ |
+| Add/remove team members | ❌ | ❌ | ✅ | ✅ |
+| Add/remove team managers | ❌ | ❌ | ❌ | ✅ |
+| Add team administrators | ❌ | ❌ | ❌ | OPERATIONS_ADMIN or GENERAL_ADMIN only |
+| Edit team details | ❌ | ❌ | ✅ | ✅ |
+| Delete team | ❌ | ❌ | ❌ | ✅ |
 
 > **Note**: Team Member (Creator) can create {{notebooks}} but does NOT automatically get access to existing team {{notebooks}}. This is by design for teaching environments where students create isolated {{notebooks}}.
 

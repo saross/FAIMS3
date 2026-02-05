@@ -204,7 +204,7 @@ Only users with the **GENERAL_ADMIN** system role can create new teams.
 3. Enter the team details:
    - **Name** — A descriptive name for the team
    - **Description** — Optional description of the team's purpose
-4. Click **Create**
+4. Click **Create team**
 5. The new team appears in the Teams list
 
 ```{screenshot} user-roles/08-teams-create-dialog.png
@@ -267,7 +267,7 @@ There are four team roles: **Team Administrator** (full control), **Team Manager
 2. Click **+ Add user** button above the table
 3. Enter the user's email address
 4. Select their team role from the dropdown
-5. Click **Add**
+5. Click **Add User**
 
 ```{screenshot} user-roles/07-teams-add-user.png
 :alt: Add user to team dialog with User Email text field and Role dropdown showing options: Team Member (Contributor), Team Member (Creator), Team Manager, and Team Administrator
@@ -308,11 +308,12 @@ The **Invites** tab allows you to create invitation links that users can use to 
 
 1. Navigate to your team
 2. Click the **Invites** tab
-3. Click **+ Create Invite**
+3. Click **+ Create Team Invite**
 4. Configure the invitation:
+   - **Invite title** — A descriptive name for the invitation
    - **Role** — The team role new members will receive
+   - **Uses** — How many times the invite can be used (leave empty for unlimited)
    - **Expiry** — When the invitation expires (see below)
-   - **Uses** — How many times the invite can be used (optional)
 5. Click **Create Invite**
 
 ```{screenshot} user-roles/08b-teams-create-invite.png
@@ -373,7 +374,6 @@ From here you can:
 3. Click the **Users** tab
 4. You'll see a table with columns:
    - **Name** — User's display name
-   - **Email** — User's email address
    - **{{Notebook}} Roles** — Current role (display only)
    - **Remove** — Trash icon to remove user
 
@@ -382,6 +382,16 @@ From here you can:
 :align: right
 :width: 100%
 ```
+
+### {{Notebook}} Tabs Overview
+
+| Tab | Purpose |
+|-----|---------|
+| **Details** | {{Notebook}} name, description, and metadata |
+| **Invites** | Invitation links for adding users |
+| **Users** | Current {{notebook}} users and their roles |
+| **Export** | Export {{notebook}} data |
+| **Actions** | {{Notebook}} actions (activate, edit design) |
 
 ### Understanding {{Notebook}} Roles
 
@@ -398,14 +408,17 @@ Users can have {{notebook}} access from two sources:
 
 ### Inviting Users to a {{Notebook}}
 
-Unlike Teams and Users, you **cannot change roles directly** in the {{notebook}} Users tab. To add users or change roles:
+Unlike Teams, you **cannot add users directly** to a {{notebook}}. Instead, you create invitation links that users can accept to join with a specific role.
 
 1. Navigate to your {{notebook}}
 2. Click the **Invites** tab
-3. Click **+ Invite user** (or similar button)
-4. Enter the user's email address
-5. Select their {{notebook}} role (Administrator, Manager, Contributor, or Guest)
-6. Send the invitation
+3. Click **+ Create Invite**
+4. Configure the invitation:
+   - **Invite title** — A descriptive name for the invitation (e.g., "Field team contributor access")
+   - **Role** — The {{notebook}} role recipients will receive (Administrator, Manager, Contributor, or Guest)
+   - **Uses** — How many times the invite can be used (leave empty for unlimited)
+   - **Expiry** — When the invitation expires
+5. Click **Create Invite**
 
 ```{screenshot} user-roles/10-notebooks-invite.png
 :alt: Create Invite dialog for a {{notebook}} showing Invite title field, Role dropdown with options (Administrator, Manager, Contributor, Guest), expiry date selection with Quick Select and Custom Date options, and Create Invite button
@@ -549,7 +562,7 @@ To hand off a {{notebook}} to someone else:
 | Role | Display Name | Permissions |
 |------|--------------|-------------|
 | PROJECT_ADMIN | Administrator | Full control, manage administrators, delete {{notebook}} |
-| PROJECT_MANAGER | Manager | Edit design, close {{notebook}}, reassign team, export, manage invites/access |
+| PROJECT_MANAGER | Manager | Edit design, close {{notebook}}, export, manage invites/access |
 | PROJECT_CONTRIBUTOR | Contributor | Edit others' records (plus all Guest permissions) |
 | PROJECT_GUEST | Guest | Activate {{notebook}}, create records, view/edit/delete own records |
 
@@ -563,8 +576,8 @@ To hand off a {{notebook}} to someone else:
 | Edit others' records | ❌ | ✅ | ✅ | ✅ |
 | Update {{notebook}} metadata/design | ❌ | ❌ | ✅ | ✅ |
 | Close {{notebook}} | ❌ | ❌ | ✅ | ✅ |
-| Reassign to different team | ❌ | ❌ | ✅ | ✅ |
-| Export own data | ❌ | ✅ | ✅ | ✅ |
+| Reassign to different team | ❌ | ❌ | ❌ | ✅ |
+| Export own data | ✅ | ✅ | ✅ | ✅ |
 | Export all {{notebook}} data | ❌ | ❌ | ✅ | ✅ |
 | Manage invites and access | ❌ | ❌ | ✅ | ✅ |
 | Manage administrators | ❌ | ❌ | ❌ | ✅ |
