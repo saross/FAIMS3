@@ -15,6 +15,13 @@ Fieldmark (`app`). Primary browser: Chromium (headed locally, headless in CI).
 cd api && pnpm seed-test-dataset
 ```
 
+For documentation screenshot runs there is a companion seed,
+`pnpm seed-docs-dataset` (idempotent, additive — a demo team, eleven
+plausibly-named background notebooks with fixed creation dates, and three
+pre-verified personas including the `DOCS_CAPTURE_*` account in
+`e2e/.env.dist`). Docs specs use it for realistic list content; it is not
+required for the test suites.
+
 4. Dev stack: `pnpm run dev` (api `:8080`, app `:3000`, web `:3001`).
 
 For repeated local password-reset / invite e2e, set in `api/.env`:
